@@ -32,7 +32,11 @@ return array(
 
     'paths' => array(
         public_path('upload'),
-        public_path('images')
+        public_path('images'),
+        public_path('assets/img/profile'),
+        public_path('assets/img/proof'),
+        public_path('assets/img/staff'),
+        public_path('assets/img/gym'),
     ),
 
     /*
@@ -55,6 +59,12 @@ return array(
         'small' => 'Intervention\Image\Templates\Small',
         'medium' => 'Intervention\Image\Templates\Medium',
         'large' => 'Intervention\Image\Templates\Large',
+        '100x100' => 'App\Lubus\ImageFilters\Image100x100',
+        '400x400' => 'App\Lubus\ImageFilters\Image400x400',
+        '50x50'   => 'App\Lubus\ImageFilters\Image50x50',
+        '64x64'   => 'App\Lubus\ImageFilters\Image64x64',
+        '70x70'   => 'App\Lubus\ImageFilters\Image70x70',
+        'Invoice' => 'App\Lubus\ImageFilters\Invoice',
     ),
 
     /*

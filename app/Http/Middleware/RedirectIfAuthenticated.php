@@ -4,9 +4,15 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Guard;
 
 class RedirectIfAuthenticated
 {
+    protected $auth;
+
+    public function __construct(Guard $auth) {
+        $this->auth = $auth;
+    }
     /**
      * Handle an incoming request.
      *
@@ -17,6 +23,10 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if ($this->auth->check()) {
+            return redirect('/dashboard');
+        }
+
         if (Auth::guard($guard)->check()) {
             return redirect('/home');
         }

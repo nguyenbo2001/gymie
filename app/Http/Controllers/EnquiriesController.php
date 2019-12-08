@@ -60,5 +60,120 @@ class EnquiriesController extends Controller
             'email' => 'unique:enquiries,email',
             'contact' => 'unique:enquiries,contact'
         ]);
+
+        // Start Transaction
+        DB::beginTransaction();
+
+        try {
+            // store enquiries details
+            $enquiryData = [
+                'name' => $request->name,
+                'DOB' => $request->DOB,
+                'gender' => $request->gender,
+                'contact' => $request->contact,
+                'email' => $request->email,
+                'address' => $request->address,
+                'status' => \constEnquiryStatus::Lead,
+                'pin_code' => $request->pin_code,
+                'occupation' => $request->occupation,
+                'start_by' => $request->start_by,
+                'interested_in' => implode(',', $request->interested),
+                'aim' => $request->aim,
+                'source' => $request->source,
+            ];
+
+            $enquiry = new Enquiry($enquiryData);
+            $enquiry->createdBy()->associate(Auth::user());
+            $enquiry->updatedBy()->associate(Auth::user());
+            $enquiry->save();
+
+            // Store the followup details
+            $followupData = [
+                'enquiry_id' => $enquiry->id,
+                'followup_by' => $request->followup_by,
+                'due_date' => $request->due_date,
+                'status' => \constFollowupStatus::Pending,
+                'outcome' => '',
+            ];
+            $followup = new Followup($followupData);
+            $followup->createdBy()->associate(Auth::user());
+            $followup->updatedBy()->associate(Auth::user());
+            $followup->save();
+
+            // SMS Trigger
+            $gym_name = \Utilities::getSetting('gym_name');
+            $sender_id = \Utilities::getSetting('sms_sender_id');
+
+            $sms_trigger = SmsTrigger::where('alias', '=', 'enquiry_placement')
+                                    ->first();
+            $message = $sms_trigger->message;
+            $sms_text = sprintf($message, $enquiry->name, $gym_name);
+            $sms_status = $sms_trigger->status;
+            \Utilities::Sms($sender_id, $enquiry->contact, $sms_text, $sms_status);
+
+            DB::commit();
+            flash()->success('Enquiry was successfully created');
+
+            return redirect(action('EnquiriesController@show', ['id' => $enquiry->id]));
+        } catch(\Exception $e) {
+            DB::rollback();
+            flash()->error('Error while creating the Enquiry');
+
+            return redirect(action('EnquiriesController@index'));
+        }
+    }
+
+    public function edit($id) {
+        $enquiry = Enquiry::findOrFail($id);
+
+        return view('enquiries.edit', compact('enquiry'));
+    }
+
+    public function update($id, Request $request) {
+        $enquiry = Enquiry::findOrFail($id);
+
+        $enquiry->name = $request->name;
+        $enquiry->DOB = $request->DOB;
+        $enquiry->gender = $request->gender;
+        $enquiry->contact = $request->contact;
+        $enquiry->email = $request->email;
+        $enquiry->address = $request->address;
+        $enquiry->pin_code = $request->pin_code;
+        $enquiry->occupation = $request->occupation;
+        $enquiry->start_by = $request->start_by;
+        $enquiry->interested_in = implode(',', $request->interested_id);
+        $enquiry->aim = $request->aim;
+        $enquiry->source = $request->source;
+        $enquiry->createdBy()->associate(Auth::user());
+        $enquiry->updatedBy()->associate(Auth::user());
+        $enquiry->update();
+
+        flash()->success('Enquiry details were successfully updated');
+
+        return redirect(action('EnquiriesController@show', ['id' => $enquiry->id]));
+    }
+
+    public function lost($id) {
+        $enquiry = Enquiry::findOrFail($id);
+
+        $enquiry->status = \constEnquiryStatus::Lost;
+        $enquiry->updatedBy()->associate(Auth::user());
+        $enquiry->update();
+
+        flash()->success('Enquiry was marked as lost');
+
+        return redirect('enquiries/all');
+    }
+
+    public function markMember($id) {
+        $enquiry = Enquiry::findOrFail($id);
+
+        $enquiry->status = \constEnquiryStatus::Member;
+        $enquiry->updatedBy()->associate(Auth::user());
+        $enquiry->update();
+
+        flash()->success('Enquiry was marked as member');
+
+        return redirect('enquiries/all');
     }
 }

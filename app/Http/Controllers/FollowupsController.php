@@ -33,7 +33,7 @@ class FollowupsController extends Controller
     /**
      * Update followup
      */
-    public function(Request $request, $id) {
+    public function update (Request $request, $id) {
         $followup = Followup::findOrFail($id);
         $followup->update($request->all());
         $followup->createdBy()->associate(Auth::user());

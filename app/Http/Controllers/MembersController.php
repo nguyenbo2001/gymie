@@ -420,7 +420,29 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $member = Member::findOrFail($id);
+        $member->update($request->all());
+
+        if ($request->hasFile('photo')) {
+            $member->clearMediaCollection('profile');
+            $member->addMedia($request->file('photo'))
+                    ->usingFileName('profile_'. $member->id. $request->photo->getClientOriginalExtension())
+                    ->toCollection('profile');
+        }
+
+        if ($request->hasFile('proof_photo')) {
+            $member->clearMediaCollection('proof');
+            $member->addMedia($request->file('proof_photo'))
+                    ->usingFileName('proof_'. $member->id. $request->photo->getClientOriginalExtension())
+                    ->toCollectioin('proof');
+        }
+
+        $member->updatedBy()->associate(Auth::user());
+        $member->save();
+
+        flash()->success('Member details were successfully updated');
+
+        return redirect(action('MembersController@show', ['id' => $member->id]));
     }
 
     /**
@@ -432,5 +454,80 @@ class MembersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Function Archive
+     *
+     * @param Member $id
+     */
+    public function archive(Request $request, $id) {
+        Subsscriptioni::where('member_id', $id)->delete();
+
+        $invoices = Invoice::where('member_id', $id)->get();
+
+        foreach ($invoices as $invoice) {
+            InvoiceDetail::where('invoice_id', $invoice->id)->delete();
+            $payment_details = PaymentDetail::where('invoice_id', $invoice->id)->get();
+
+            foreach ($payment_details as $payment_detail) {
+                ChequeDetail::where('payment_id', $payment_detail->id)->delete();
+                $payment_detail->delete();
+            }
+
+            $invoice->delete();
+        }
+
+        $member = Member::findOrFail($id);
+        $member->clearMediaCollection('profile');
+        $member->clearMediaCollection('proof');
+        $member->delete();
+
+        return back();
+    }
+
+    /**
+     * Function Transfer
+     *
+     * @param Inquiry $id
+     */
+    public function transfer(Request $request, $id) {
+        // For tax calculate
+        Javascript::put([
+            'taxes' => \Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+        ]);
+
+        // Get Numbering mode
+        $invoice_number_mode = \Utilities::getSetting('invoice_number_mode');
+        $member_number_mode = \Utilities::getSetting('member_number_mode');
+
+        // Generation Invoice number
+        if ($invoice_number_mode == \constNumberingMode::Auto) {
+            $invoiceCounter = \Utilities::getSetting('invoice_last_number') + 1;
+            $invoicePrefix = \Utilities::getSetting('invoice_prefix');
+            $invoice_number = $invoicePrefix.$invoiceCounter;
+        } else {
+            $invoice_number = '';
+            $invoiceCounter = '';
+        }
+
+        // Generating Member Counter
+        if ($member_number_mode == \constNumberingMode::Auto) {
+            $memberCounter = \Utilities::getSetting('member_last_number') + 1;
+            $memberPrefix = \Utilities::getSetting('member_prefix');
+            $member_code = $memberPrefix.$memberCounter;
+        } else {
+            $member_code = '';
+            $memberCounter = '';
+        }
+
+        $enquiry = Enquiry::findOrFail($id);
+
+        return view('members.transfer', compact('enquiry', 'invoice_number',
+                                                'invoiceCounter', 'member_code',
+                                                'memberCounter', 'member_number_mode',
+                                                'invoice_number_mode'));
     }
 }

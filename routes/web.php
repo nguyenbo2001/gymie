@@ -18,3 +18,29 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+// Log viewer route
+Route::get('logs', [
+    'middleware' => ['auth', 'role:Gymie'],
+    'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index'
+]);
+
+// Data Migration
+Route::get('data/migration', [
+    'middleware' => ['auth', 'role:Gymie'],
+    'uses' => 'DataMigrationController@migrate',
+]);
+
+Route::get('data/media/migration', [
+    'middleware' => ['auth', 'role:Gymie'],
+    'uses' => 'DataMigrationController@migrationMedia'
+]);
+
+Route::get('excel/migration', [
+    'middleware' => ['auth', 'role:Gymie'],
+    'uses' => 'DataMigrationController@migrateExcel',
+]);
+
+// Report Data
+Route::get('reportData/members', 'ReportData\MembersController@details');

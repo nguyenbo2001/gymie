@@ -14,7 +14,7 @@ class AddForeignKeysToPlansTable extends Migration
     public function up()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->foreign('service_id', 'FK_plans_services')
+            $table->foreign('id', 'FK_plans_services')
                     ->references('id')->on('services')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('created_by', 'FK_plans_users_1')

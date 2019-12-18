@@ -13,7 +13,7 @@ class AddForeignKeysToInquiriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('inquiries', function (Blueprint $table) {
+        Schema::table('enquiries', function (Blueprint $table) {
             $table->foreign('created_by', 'FK_enquiries_staff_1')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('updated_by', 'FK_enquiries_staff_2')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -26,7 +26,7 @@ class AddForeignKeysToInquiriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('inquiries', function (Blueprint $table) {
+        Schema::table('enquiries', function (Blueprint $table) {
             $table->dropForeign('FK_enquiries_staff_1');
             $table->dropForeign('FK_enquiries_staff_2');
         });

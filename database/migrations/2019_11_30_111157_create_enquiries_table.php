@@ -14,7 +14,7 @@ class CreateEnquiriesTable extends Migration
     public function up()
     {
         Schema::create('enquiries', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('Unique record ID');
+            $table->increments('id')->comment('Unique record ID');
             $table->string('name', 50);
             $table->date('DOB');
             $table->string('email', 50);
@@ -30,7 +30,7 @@ class CreateEnquiriesTable extends Migration
             $table->string('source', 50);
             $table->timestamps();
             $table->integer('created_by')->unsigned()->index('FK_enquiries_staff_1');
-            $table->integer('updated_by')->unsigned()->index('FK_enquiries_staff_2')
+            $table->integer('updated_by')->unsigned()->index('FK_enquiries_staff_2');
         });
     }
 

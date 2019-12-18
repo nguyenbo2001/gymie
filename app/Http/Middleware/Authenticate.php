@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Authenticate extends Middleware
+class Authenticate
 {
     protected $auth;
 

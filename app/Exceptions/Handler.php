@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -13,7 +14,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        HttpException::class,
     ];
 
     /**
@@ -34,6 +35,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        // sentry logging
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
         parent::report($exception);
     }
 

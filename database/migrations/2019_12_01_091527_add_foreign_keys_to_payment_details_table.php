@@ -15,7 +15,7 @@ class AddForeignKeysToPaymentDetailsTable extends Migration
     {
         Schema::table('payment_details', function (Blueprint $table) {
             $table->foreign('invoice_id')
-                    ->references('id')->on('invoice')
+                    ->references('id')->on('invoices')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('created_by')
                     ->references('id')->on('users')

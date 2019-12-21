@@ -21,7 +21,7 @@ class AddForeignKeysToInvoiceDetailsTable extends Migration
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('invoice_id')
-                    ->references('id')->on('invoice')
+                    ->references('id')->on('invoices')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('plan_id')
                     ->references('id')->on('plans')

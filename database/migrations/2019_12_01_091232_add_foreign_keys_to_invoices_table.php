@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeysToInvoiceTable extends Migration
+class AddForeignKeysToInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddForeignKeysToInvoiceTable extends Migration
      */
     public function up()
     {
-        Schema::table('invoice', function (Blueprint $table) {
+        Schema::table('invoices', function (Blueprint $table) {
             $table->foreign('member_id')
                     ->references('id')->on('members')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
@@ -33,10 +33,10 @@ class AddForeignKeysToInvoiceTable extends Migration
      */
     public function down()
     {
-        Schema::table('invoice', function (Blueprint $table) {
-            $table->dropForeign('invoice_member_id_foreign');
-            $table->dropForeign('invoice_created_by_foreign');
-            $table->dropForeign('invoice_updated_by_foreign');
+        Schema::table('invoices', function (Blueprint $table) {
+            $table->dropForeign('invoices_member_id_foreign');
+            $table->dropForeign('invoices_created_by_foreign');
+            $table->dropForeign('invoices_updated_by_foreign');
         });
     }
 }

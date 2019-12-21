@@ -21,10 +21,10 @@ class DashboardController extends Controller
     }
 
     public function index() {
-        Javascript::put([
-            'jsRegistrationsCount' => \Utilities::registrationsTrend(),
-            'jsMembersPerPlan' => \Utilities::membersPerPlan(),
-        ]);
+        // Javascript::put([
+        //     'jsRegistrationsCount' => \Utilities::registrationsTrend(),
+        //     'jsMembersPerPlan' => \Utilities::membersPerPlan(),
+        // ]);
 
         $expirings = Subscription::dashboardExpiring()->paginate();
         $expiringTotal = Subscription::dashboardExpiring()->get();
@@ -36,17 +36,17 @@ class DashboardController extends Controller
         $birthdayCount = $birthdays->count();
         $recents = Member::recent()->get();
         $enquiries = Enquiry::onlyLeads()->get();
-        $reminders = Followup::reminders()->count();
+        $reminders = Followup::reminders()->get();
         $reminderCount = $reminders->count();
         $dues = Expense::dueAlerts()->get();
         $outstandings = Expense::outstandingAlerts()->get();
         $smsRequestSetting = \Utilities::getSetting('sms_request');
         $smslogs = SmsLog::dashboardLogs()->get();
         $recievedCheques = ChequeDetail::where('status', \constChequeStatus::Recieved)->get();
-        $recivedChequesCount = $recievedCheques->count();
+        $recievedChequesCount = $recievedCheques->count();
         $depositedCheques = ChequeDetail::where('status', \constChequeStatus::Deposited)->get();
         $depositedChequesCount = $depositedCheques->count();
-        $bouncedCheques = ChequesDetail::where('status', \constChequesStatus::Bounced)->get();
+        $bouncedCheques = ChequeDetail::where('status', \constChequeStatus::Bounced)->get();
         $bouncedChequesCount = $bouncedCheques->count();
         $membersPerPlan = json_decode(\Utilities::membersPerPlan());
 

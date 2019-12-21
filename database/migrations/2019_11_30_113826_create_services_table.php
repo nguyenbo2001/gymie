@@ -14,12 +14,12 @@ class CreateServicesTable extends Migration
     public function up()
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('id', true);
             $table->string('name', 50);
             $table->string('description', 50);
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_services_users_1');
-            $table->integer('updated_by')->unsigned()->index('FK_services_users_2');
+            $table->integer('created_by')->unsigned()->index('services_created_by_foreign');
+            $table->integer('updated_by')->unsigned()->index('services_updated_by_foreign');
         });
     }
 

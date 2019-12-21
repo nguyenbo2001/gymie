@@ -14,13 +14,13 @@ class AddForeignKeysToPaymentDetailsTable extends Migration
     public function up()
     {
         Schema::table('payment_details', function (Blueprint $table) {
-            $table->foreign('invoice_id', 'FK_payment_details_1')
+            $table->foreign('invoice_id')
                     ->references('id')->on('invoice')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('created_by', 'FK_payment_details_staff_2')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_payment_details_staff_3')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -34,9 +34,9 @@ class AddForeignKeysToPaymentDetailsTable extends Migration
     public function down()
     {
         Schema::table('payment_details', function (Blueprint $table) {
-            $table->dropForeign('FK_payment_details_1');
-            $table->dropForeign('FK_payment_details_staff_2');
-            $table->dropForeign('FK_payment_details_staff_3');
+            $table->dropForeign('payment_details_invoice_id_foreign');
+            $table->dropForeign('payment_details_created_by_foreign');
+            $table->dropForeign('payment_details_updated_by_foreign');
         });
     }
 }

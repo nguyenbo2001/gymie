@@ -14,10 +14,10 @@ class AddForeignKeysToExpensesCategoriesTable extends Migration
     public function up()
     {
         Schema::table('expenses_categories', function (Blueprint $table) {
-            $table->foreign('created_by', 'FK_expenses_categories_users_1')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('No ACTION');
-            $table->foreign('updated_by', 'FK_expenses_categories_users_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('No ACTION');
         });
@@ -31,8 +31,8 @@ class AddForeignKeysToExpensesCategoriesTable extends Migration
     public function down()
     {
         Schema::table('expenses_categories', function (Blueprint $table) {
-            $table->dropForeign('FK_expenses_categories_users_1');
-            $table->dropForeign('FK_expenses_categories_users_2');
+            $table->dropForeign('expenses_categories_created_by_foreign');
+            $table->dropForeign('expenses_categories_updated_by_foreign');
         });
     }
 }

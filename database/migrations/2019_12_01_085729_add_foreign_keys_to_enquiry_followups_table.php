@@ -14,13 +14,13 @@ class AddForeignKeysToEnquiryFollowupsTable extends Migration
     public function up()
     {
         Schema::table('enquiry_followups', function (Blueprint $table) {
-            $table->foreign('enquiry_id', 'FK_enquiry_followups_enquiries_1')
+            $table->foreign('enquiry_id')
                     ->references('id')->on('enquiries')
                     ->onUpdate("RESTRICT")->onDelete('RESTRICT');
-            $table->foreign('created_by', 'FK_enquiry_followups_staff_2')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate("RESTRICT")->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_enquiry_followups_staff_3')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate("RESTRICT")->onDelete('RESTRICT');
         });
@@ -34,9 +34,9 @@ class AddForeignKeysToEnquiryFollowupsTable extends Migration
     public function down()
     {
         Schema::table('enquiry_followups', function (Blueprint $table) {
-            $table->dropForeign('FK_enquiry_followups_enquiries_1');
-            $table->dropForeign('FK_enquiry_followups_staff_2');
-            $table->dropForeign('FK_enquiry_followups_staff_3');
+            $table->dropForeign('enquiry_followups_enquiry_id_foreign');
+            $table->dropForeign('enquiry_followups_created_by_foreign');
+            $table->dropForeign('enquiry_followups_updated_by_foreign');
         });
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeysToRoleUserTable extends Migration
+class AddForeignKeysToRoleUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddForeignKeysToRoleUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_role', function (Blueprint $table) {
+        Schema::table('role_users', function (Blueprint $table) {
             $table->foreign('role_id')->references('id')
                     ->on('roles')->onUpdate('CASCADE')
                     ->onDelete('CASCADE');
@@ -30,9 +30,9 @@ class AddForeignKeysToRoleUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_role', function (Blueprint $table) {
-            $table->dropForeign('role_user_role_id_foreign');
-            $table->dropForeign('role_user_user_id_foreign');
+        Schema::table('role_users', function (Blueprint $table) {
+            $table->dropForeign('role_users_role_id_foreign');
+            $table->dropForeign('role_users_user_id_foreign');
         });
     }
 }

@@ -14,13 +14,13 @@ class AddForeignKeysToInvoiceTable extends Migration
     public function up()
     {
         Schema::table('invoice', function (Blueprint $table) {
-            $table->foreign('member_id', 'FK_invoice_members_1')
+            $table->foreign('member_id')
                     ->references('id')->on('members')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('created_by', 'FK_invoice_staff_1')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_invoice_staff_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -34,9 +34,9 @@ class AddForeignKeysToInvoiceTable extends Migration
     public function down()
     {
         Schema::table('invoice', function (Blueprint $table) {
-            $table->dropForeign('FK_invoice_members_1');
-            $table->dropForeign('FK_invoice_staff_1');
-            $table->dropForeign('FK_invoice_staff_2');
+            $table->dropForeign('invoice_member_id_foreign');
+            $table->dropForeign('invoice_created_by_foreign');
+            $table->dropForeign('invoice_updated_by_foreign');
         });
     }
 }

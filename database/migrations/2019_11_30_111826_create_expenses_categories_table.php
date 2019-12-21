@@ -14,12 +14,12 @@ class CreateExpensesCategoriesTable extends Migration
     public function up()
     {
         Schema::create('expenses_categories', function (Blueprint $table) {
-            $table->integer('id')->comment('Unique Record Id for system');
+            $table->integer('id', true)->comment('Unique Record Id for system');
             $table->string('name', 50)->comment('category name');
             $table->boolean('status');
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_expenses_categories_users_1');
-            $table->integer('updated_by')->unsigned()->index('FK_expenses_categories_users_2');
+            $table->integer('created_by')->unsigned()->index('expenses_categories_created_by_foreign');
+            $table->integer('updated_by')->unsigned()->index('expenses_categories_updated_by_foreign');
         });
     }
 

@@ -14,13 +14,13 @@ class AddForeignKeysToInvoiceDetailsTable extends Migration
     public function up()
     {
         Schema::table('invoice_details', function (Blueprint $table) {
-            $table->foreign('created_by', 'FK_invoice_details_staff_2')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_invoice_details_staff_3')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('invoice_id', 'FK_invoice_details_invoice_1')
+            $table->foreign('invoice_id')
                     ->references('id')->on('invoice')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
             $table->foreign('plan_id')
@@ -37,10 +37,10 @@ class AddForeignKeysToInvoiceDetailsTable extends Migration
     public function down()
     {
         Schema::table('invoice_details', function (Blueprint $table) {
-            $table->dropForeign('FK_invoice_details_staff_2');
-            $table->dropForeign('FK_invoice_details_staff_3');
-            $table->dropForeign('FK_invoice_details_invoice_1');
-            $table->dropForeign('FK_invoice_details_plan_id_foreign');
+            $table->dropForeign('invoice_details_created_by_foreign');
+            $table->dropForeign('invoice_details_updated_by_foreign');
+            $table->dropForeign('invoice_details_invoice_id_foreign');
+            $table->dropForeign('invoice_details_plan_id_foreign');
         });
     }
 }

@@ -14,13 +14,13 @@ class AddForeignKeysToPlansTable extends Migration
     public function up()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->foreign('id', 'FK_plans_services')
+            $table->foreign('service_id')
                     ->references('id')->on('services')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('created_by', 'FK_plans_users_1')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_plans_users_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -34,9 +34,9 @@ class AddForeignKeysToPlansTable extends Migration
     public function down()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->dropForeign('FK_plans_services');
-            $table->dropForeign('FK_plans_users_1');
-            $table->dropForeign('FK_plans_users_2');
+            $table->dropForeign('plans_service_id_foreign');
+            $table->dropForeign('plans_created_by_foreign');
+            $table->dropForeign('plans_updated_by_foreign');
         });
     }
 }

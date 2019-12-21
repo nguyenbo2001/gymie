@@ -14,7 +14,7 @@ class CreateSmsLogTable extends Migration
     public function up()
     {
         Schema::create('sms_log', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('id', true);
             $table->string('number', 50);
             $table->string('message', 500);
             $table->string('shoot_id', 200);

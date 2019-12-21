@@ -14,14 +14,14 @@ class CreatePaymentDetailsTable extends Migration
     public function up()
     {
         Schema::create('payment_details', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('invoice_id')->index('FK_payment_details_1')->comment('link to unique record id of invoice');
+            $table->integer('id', true);
+            $table->integer('invoice_id')->index('payment_details_invoice_id_foreign')->comment('link to unique record id of invoice');
             $table->integer('payment_amount')->comment('amount of transaction being done');
             $table->string('mode', 50)->comment('1 = Cash, 0 = Cheque');
             $table->string('node', 50)->comment('misc. note');
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_payment_details_staff_2');
-            $table->integer('updated_by')->unsigned()->index('FK_payment_details_staff_3');
+            $table->integer('created_by')->unsigned()->index('payment_details_created_by_foreign');
+            $table->integer('updated_by')->unsigned()->index('payment_details_updated_by_foreign');
         });
     }
 

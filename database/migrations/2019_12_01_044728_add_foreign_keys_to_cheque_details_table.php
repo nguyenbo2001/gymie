@@ -14,13 +14,13 @@ class AddForeignKeysToChequeDetailsTable extends Migration
     public function up()
     {
         Schema::table('cheque_details', function (Blueprint $table) {
-            $table->foreign('created_by', 'FK_cheque_details_users')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_cheque_details_users_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('payment_id', 'FK_cheque_details_payment_details')
+            $table->foreign('payment_id')
                     ->references('id')->on('payment_details')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -34,9 +34,9 @@ class AddForeignKeysToChequeDetailsTable extends Migration
     public function down()
     {
         Schema::table('cheque_details', function (Blueprint $table) {
-            $table->dropForeign('FK_cheque_details_users');
-            $table->dropForeign('FK_cheque_details_users_2');
-            $table->dropForeign('FK_cheque_details_payment_details');
+            $table->dropForeign('cheque_details_created_by_foreign');
+            $table->dropForeign('cheque_details_updated_by_foreign');
+            $table->dropForeign('cheque_details_payment_id_foreign');
         });
     }
 }

@@ -14,10 +14,10 @@ class AddForeignKeysToSmsEventsTable extends Migration
     public function up()
     {
         Schema::table('sms_events', function (Blueprint $table) {
-            $table->foreign('created_by', 'FK_sms_events_users_1')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_sms_events_users_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -31,8 +31,8 @@ class AddForeignKeysToSmsEventsTable extends Migration
     public function down()
     {
         Schema::table('sms_events', function (Blueprint $table) {
-            $table->dropForeign('FK_sms_events_users_1');
-            $table->dropForeign('FK_sms_events_users_2');
+            $table->dropForeign('sms_events_created_by_foreign');
+            $table->dropForeign('sms_events_updated_by_foreign');
         });
     }
 }

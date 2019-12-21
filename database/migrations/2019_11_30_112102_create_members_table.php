@@ -14,7 +14,7 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->integer('id')->comment('Unique Record ID for system');
+            $table->integer('id', true)->comment('Unique Record ID for system');
             $table->string('member_code', 50)->unique('member_id')->comment('Unique member id for reference');
             $table->string('name', 50)->comment('member name');
             $table->string('photo', 50)->comment('member photo');
@@ -33,8 +33,8 @@ class CreateMembersTable extends Migration
             $table->string('aim', 50);
             $table->string('source', 50);
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_members_users_1');
-            $table->integer('updated_by')->unsigned()->index('FK_members_users_2');
+            $table->integer('created_by')->unsigned()->index('members_created_by_foreign');
+            $table->integer('updated_by')->unsigned()->index('members_updated_by_foreign');
         });
     }
 

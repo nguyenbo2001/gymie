@@ -29,8 +29,8 @@ class CreateEnquiriesTable extends Migration
             $table->string('aim', 50);
             $table->string('source', 50);
             $table->timestamps();
-            $table->integer('created_by')->unsigned()->index('FK_enquiries_staff_1');
-            $table->integer('updated_by')->unsigned()->index('FK_enquiries_staff_2');
+            $table->integer('created_by')->unsigned()->index('enquiries_created_by_foreign');
+            $table->integer('updated_by')->unsigned()->index('enquiries_updated_by_foreign');
         });
     }
 

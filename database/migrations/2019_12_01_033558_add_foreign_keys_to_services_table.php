@@ -14,10 +14,10 @@ class AddForeignKeysToServicesTable extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->foreign('created_by', 'FK_services_users_1')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_services_users_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -31,8 +31,8 @@ class AddForeignKeysToServicesTable extends Migration
     public function down()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->dropForeign('FK_services_users_1');
-            $table->dropForeign('FK_services_users_2');
+            $table->dropForeign('services_created_by_foreign');
+            $table->dropForeign('services_updated_by_foreign');
         });
     }
 }

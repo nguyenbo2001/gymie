@@ -14,7 +14,7 @@ class AddForeignKeysToAccessLogTable extends Migration
     public function up()
     {
         Schema::table('access_log', function (Blueprint $table) {
-            $table->foreign('user_id', 'FK_activities_users_1')
+            $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -28,7 +28,7 @@ class AddForeignKeysToAccessLogTable extends Migration
     public function down()
     {
         Schema::table('access_log', function (Blueprint $table) {
-            $table->dropForeign('FK_activities_users_1');
+            $table->dropForeign('access_log_user_id_foreign');
         });
     }
 }

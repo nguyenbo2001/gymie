@@ -14,10 +14,10 @@ class AddForeignKeysToMembersTable extends Migration
     public function up()
     {
         Schema::table('members', function (Blueprint $table) {
-            $table->foreign('created_by', 'FK_members_users_1')
+            $table->foreign('created_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
-            $table->foreign('updated_by', 'FK_members_users_2')
+            $table->foreign('updated_by')
                     ->references('id')->on('users')
                     ->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
@@ -31,8 +31,8 @@ class AddForeignKeysToMembersTable extends Migration
     public function down()
     {
         Schema::table('members', function (Blueprint $table) {
-            $table->dropForeign('FK_members_users_1');
-            $table->dropForeign('FK_members_users_2');
+            $table->dropForeign('members_created_by_foreign');
+            $table->dropForeign('members_updated_by_foreign');
         });
     }
 }

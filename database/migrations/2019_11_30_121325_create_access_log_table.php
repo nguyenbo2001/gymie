@@ -14,8 +14,8 @@ class CreateAccessLogTable extends Migration
     public function up()
     {
         Schema::create('access_log', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('user_id')->unsigned()->default(0)->index('FK_activities_users_1');
+            $table->integer('id', true);
+            $table->integer('user_id')->unsigned()->default(0)->index('access_log_user_id_foreign');
             $table->dateTime('created_at');
             $table->string('action', 50);
             $table->string('module', 50);

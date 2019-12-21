@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeysToPermissionRoleTable extends Migration
+class AddForeignKeysToPermissionRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddForeignKeysToPermissionRoleTable extends Migration
      */
     public function up()
     {
-        Schema::table('permission_role', function (Blueprint $table) {
+        Schema::table('permission_roles', function (Blueprint $table) {
             $table->foreign('permission_id')->references('id')
                     ->on('permissions')
                     ->onUpdate('CASCADE')->onDelete('CASCADE');
@@ -30,9 +30,9 @@ class AddForeignKeysToPermissionRoleTable extends Migration
      */
     public function down()
     {
-        Schema::table('permission_role', function (Blueprint $table) {
-            $table->dropForeign('permission_role_permission_id_foreign');
-            $table->dropForeign('permission_role_role_id_foreign');
+        Schema::table('permission_roles', function (Blueprint $table) {
+            $table->dropForeign('permission_roles_permission_id_foreign');
+            $table->dropForeign('permission_roles_role_id_foreign');
         });
     }
 }

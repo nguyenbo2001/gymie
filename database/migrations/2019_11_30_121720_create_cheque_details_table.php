@@ -14,7 +14,7 @@ class CreateChequeDetailsTable extends Migration
     public function up()
     {
         Schema::create('cheque_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integer('id');
             $table->integer('payment_id')->index('FK_cheque_details_payment_details');
             $table->string('number', 50);
             $table->date('date');

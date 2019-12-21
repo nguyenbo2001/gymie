@@ -14,7 +14,7 @@ class CreateSmsEventsTable extends Migration
     public function up()
     {
         Schema::create('sms_events', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integer('id');
             $table->string('name', 50);
             $table->string('message', 500);
             $table->string('description', 140);

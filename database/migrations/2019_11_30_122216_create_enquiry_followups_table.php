@@ -14,7 +14,7 @@ class CreateEnquiryFollowupsTable extends Migration
     public function up()
     {
         Schema::create('enquiry_followups', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->integer('enquiry_id')->unsigned()->index('FK_enquiry_followups_enquiries_1');
             $table->string('followup_by', 50);
             $table->date('due_date');

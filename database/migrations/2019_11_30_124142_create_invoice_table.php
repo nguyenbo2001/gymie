@@ -14,7 +14,7 @@ class CreateInvoiceTable extends Migration
     public function up()
     {
         Schema::create('invoice', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('Unique record id for system');
+            $table->integer('id')->comment('Unique record id for system');
             $table->integer('member_id')->index('FK_invoice_members_1')->comment('link to unique record id of member');
             $table->integer('total')->comment('total fees/amount generated');
             $table->integer('pending_amount')->comment('pending amount');
@@ -23,6 +23,7 @@ class CreateInvoiceTable extends Migration
             $table->string('invoice_number', 50)->comment('number of the invoice/reciept');
             $table->string('discount_percent', 50);
             $table->string('discount_amount', 50);
+            $table->string('discount_note', 50);
             $table->timestamps();
             $table->integer('created_by')->unsigned()->index('FK_payments_users_3');
             $table->integer('updated_by')->unsigned()->index('FK_payments_users_4');

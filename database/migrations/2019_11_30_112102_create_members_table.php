@@ -14,7 +14,7 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('Unique Record ID for system');
+            $table->integer('id')->comment('Unique Record ID for system');
             $table->string('member_code', 50)->unique('member_id')->comment('Unique member id for reference');
             $table->string('name', 50)->comment('member name');
             $table->string('photo', 50)->comment('member photo');

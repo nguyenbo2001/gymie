@@ -14,7 +14,7 @@ class CreateSmsTriggersTable extends Migration
     public function up()
     {
         Schema::create('sms_triggers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integer('id');
             $table->string('name', 50);
             $table->string('alias', 50);
             $table->string('message', 500);

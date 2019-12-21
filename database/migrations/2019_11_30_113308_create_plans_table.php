@@ -14,7 +14,7 @@ class CreatePlansTable extends Migration
     public function up()
     {
         Schema::create('plans', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('Unique record id for system');
+            $table->integer('id')->comment('Unique record id for system');
             $table->string('plan_code', 50)->unique('plan_id')->comment('Unique plan id for reference');
             $table->integer('service_id')->index('FK_plans_services');
             $table->string('plan_name', 50)->comment('name of the plan');

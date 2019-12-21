@@ -14,7 +14,7 @@ class CreateInvoiceDetailsTable extends Migration
     public function up()
     {
         Schema::create('invoice_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integer('id');
             $table->integer('invoice_id')->index('FK_invoice_details_invoice_1')->comment('link  to unique record id of invoice');
             $table->integer('item_amount')->comment('amount of the item');
             $table->timestamps();

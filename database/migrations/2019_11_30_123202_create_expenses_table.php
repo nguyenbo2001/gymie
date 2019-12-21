@@ -14,7 +14,7 @@ class CreateExpensesTable extends Migration
     public function up()
     {
         Schema::create('expenses', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('unique record id for system');
+            $table->integer('id')->comment('unique record id for system');
             $table->string('name', 50)->comment('name of the expenses');
             $table->integer('category_id')->index('FK_expenses_expenses_categories_1')->comment('name of the category of expenses');
             $table->integer('amount')->comment('expenses amount');

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Followup extends Model
 {
-    // protected $table = 'enquiry_followups';
+    protected $table = 'enquiry_followups';
 
     protected $fillable = [
         'enquiry_id',

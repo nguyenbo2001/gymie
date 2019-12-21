@@ -32,12 +32,12 @@ class PaymentDetail extends Model
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->leftJoin('invoice',
+            return $query->leftJoin('invoices',
                                     'payment_details.invoice_id',
                                     '=',
-                                    'invoice.id')
+                                    'invoices.id')
                         ->leftJoin('members',
-                                    'invoice.member_id',
+                                    'invoices.member_id',
                                     '=',
                                     'members.id')
                         ->select('payment_details.id',
@@ -45,19 +45,19 @@ class PaymentDetail extends Model
                                 'payment_details.payment_amount',
                                 'payment_details.mode',
                                 'payment_details.invoice_id',
-                                'invoice.invoice_number',
+                                'invoices.invoice_number',
                                 'members.id as member_id',
                                 'members.name as member_name',
                                 'members.member_code')
                         ->orderBy($sorting_field, $sorting_direction);
         }
 
-        return $query->leftJoin('invoice',
+        return $query->leftJoin('invoices',
                                 'payment_details.invoice_id',
                                 '=',
-                                'invoice.id')
+                                'invoices.id')
                     ->leftJoin('members',
-                                'invoice.member_id',
+                                'invoices.member_id',
                                 '=',
                                 'members.id')
                     ->select('payment_details.id',
@@ -65,7 +65,7 @@ class PaymentDetail extends Model
                             'payment_details.payment_amount',
                             'payment_details.mode',
                             'payment_details.invoice_id',
-                            'invoice.invoice_number',
+                            'invoices.invoice_number',
                             'members.id as member_id',
                             'members.name as member_name',
                             'members.member_code')

@@ -46,10 +46,15 @@ class Expense extends Model
         return $this->belongsTo('App\ExpenseCategory', 'category_id');
     }
 
-    public function scopeDueAlerts($query) {
-        return $query->where('paid',
-                                '!=',
-                                \constPaymentStatus::Paid)
+    public function scopeDueAlerts($query)
+    {
+        return $query->where('paid', '!=', \constPaymentStatus::Paid)
+                    ->where('due_date', '>=', Carbon::today());
+    }
+
+    public function scopeOutstandingAlerts($query)
+    {
+        return $query->where('paid', '!=', \constPaymentStatus::Paid)
                     ->where('due_date', '<', Carbon::today());
     }
 

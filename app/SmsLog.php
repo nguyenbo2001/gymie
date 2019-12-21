@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SmsLog extends Model
 {
-    // protected $table = 'sms_log';
+    protected $table = 'sms_log';
 
     protected $fillable = [
         'shoot_id',
@@ -32,6 +32,6 @@ class SmsLog extends Model
     ];
 
     public function scopeDashboardLogs($query) {
-        return $query->where('send_time', '<=', Carbon::now()->take(5)->orderBy('send_time', 'desc'));
+        return $query->where('send_time', '<=', Carbon::now())->take(5)->orderBy('send_time', 'desc');
     }
 }

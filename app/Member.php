@@ -5,10 +5,11 @@ namespace App;
 use Carbon\Carbon;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\HasMediaConversions;
 
-class Member extends Model implements HasMediaConversions
+class Member extends Model implements HasMedia
 {
     use HasMediaTrait, Eloquence;
 
@@ -44,7 +45,7 @@ class Member extends Model implements HasMediaConversions
     ];
 
     // media image size conversion
-    public function registerMeidaConversions() {
+    public function registerMediaConversions(Media $media = null) {
         $this->addMediaConversion('thumb')
             ->setManipulations(['w' => 50, 'h' => 50, 'q' => 100, 'fit' => 'crop'])
             ->performOnCollections('profile');

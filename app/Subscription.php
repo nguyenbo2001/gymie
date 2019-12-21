@@ -35,11 +35,11 @@ class Subscription extends Model
         'Invoice.invoice_number' => 20,
     ];
 
-    public function scopeDashboardExpiring() {
-        return $query->where('end_date', '<', Carbon::today()->allDays(7))->where('status', '=', \constSubscription::onGoing);
+    public function scopeDashboardExpiring($query) {
+        return $query->where('end_date', '<', Carbon::today()->addDays(7))->where('status', '=', \constSubscription::onGoing);
     }
 
-    public function DashboardExpired($query) {
+    public function scopeDashboardExpired($query) {
         return $query->where('status', '=', \constSubscription::Expired);
     }
 

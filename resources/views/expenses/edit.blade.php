@@ -13,7 +13,7 @@
                     <div class="panel-body">
                     {!! Form::model($expense, ['method' => 'POST','action' => ['ExpensesController@update',$expense->id], 'id' => 'expensesform']) !!}
 
-                    @include('expenses.form',['submitButtonText' => 'Update'])
+                    @include('expenses.form',['submitButtonText' => 'Update', 'expenseCategories' => $arrExpenseCategories])
 
                     {!! Form::Close() !!}
                     </div>

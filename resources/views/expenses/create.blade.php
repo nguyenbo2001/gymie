@@ -13,7 +13,7 @@
                     <div class="panel-body">
                         {!! Form::Open(['url' => 'expenses', 'id' => 'expensesform']) !!}
 
-                        @include('expenses.form',['submitButtonText' => 'Add'])
+                        @include('expenses.form',['submitButtonText' => 'Add', 'expenseCategories' => $arrExpenseCategories])
 
                         {!! Form::Close() !!}
                     </div>

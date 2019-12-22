@@ -49,7 +49,7 @@ class PaymentDetail extends Model
                                 'members.id as member_id',
                                 'members.name as member_name',
                                 'members.member_code')
-                        ->orderBy($sorting_field, $sorting_direction);
+                        ->orderBy('payment_details.' . $sorting_field, $sorting_direction);
         }
 
         return $query->leftJoin('invoices',
@@ -70,7 +70,7 @@ class PaymentDetail extends Model
                             'members.name as member_name',
                             'members.member_code')
                     ->whereBetween('payment_details.created_at', [$drp_start, $drp_end])
-                    ->orderBy($sorting_field, $sorting_direction);
+                    ->orderBy('payment_details.' . $sorting_field, $sorting_direction);
     }
 
     public function createdBy() {

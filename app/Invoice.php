@@ -48,19 +48,19 @@ class Invoice extends Model
 
         if ($drp_start == null or $drp_end == null) {
             return $query->leftJoin('members',
-                                    'invoice.member_id',
+                                    'invoices.member_id',
                                     '=',
                                     'members.id')
-                        ->select('invoice.*', 'members.name as member_name')
-                        ->orderBy($sorting_field, $sorting_direction);
+                        ->select('invoices.*', 'members.name as member_name')
+                        ->orderBy('invoices.' .$sorting_field, $sorting_direction);
         }
         return $query->leftJoin('members',
-                            'invoice.member_id',
+                            'invoices.member_id',
                             '=',
                             'members.id')
-                    ->select('invoice.*', 'members.name as member_name')
-                    ->whereBetween('invoice.created_at', [$drp_start, $drp_end])
-                    ->orderBy($sorting_field, $sorting_direction);
+                    ->select('invoices.*', 'members.name as member_name')
+                    ->whereBetween('invoices.created_at', [$drp_start, $drp_end])
+                    ->orderBy('invoices.' .$sorting_field, $sorting_direction);
 
     }
 

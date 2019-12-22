@@ -8,7 +8,7 @@ use Lubus\Constants\Status;
 
 class ExpenseCategory extends Model
 {
-    // protected $table = 'expenses_categories';
+    protected $table = 'expenses_categories';
 
     protected $fillable = [
         'name',

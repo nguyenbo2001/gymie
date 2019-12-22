@@ -31,13 +31,13 @@ class InvoicesController extends Controller
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)
-                            ->search('"'. $request->input('search'). '"')
+                            ->search('"'.$request->input('search').'"')
                             ->paginate(10);
         $invoicesTotal = Invoice::indexQuery($request->sort_field,
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)
-                            ->search('"'. $request->input('search'). '"')
+                            ->search('"'.$request->input('search').'"')
                             ->get();
         $count = $invoicesTotal->count();
 
@@ -61,14 +61,14 @@ class InvoicesController extends Controller
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 0)
+                            ->where('invoices.status', 0)
                             ->paginate(10);
         $invoicesTotal = Invoice::indexQuery($request->sort_field,
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 0)
+                            ->where('invoices.status', 0)
                             ->get();
         $count = $invoicesTotal->count();
 
@@ -92,14 +92,14 @@ class InvoicesController extends Controller
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 1)
+                            ->where('invoices.status', 1)
                             ->paginate(10);
         $invoicesTotal = Invoice::indexQuery($request->sort_field,
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 1)
+                            ->where('invoices.status', 1)
                             ->get();
         $count = $invoicesTotal->count();
 
@@ -123,14 +123,14 @@ class InvoicesController extends Controller
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 2)
+                            ->where('invoices.status', 2)
                             ->paginate(10);
         $invoicesTotal = Invoice::indexQuery($request->sort_field,
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 2)
+                            ->where('invoices.status', 2)
                             ->get();
         $count = $invoicesTotal->count();
 
@@ -154,14 +154,14 @@ class InvoicesController extends Controller
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 3)
+                            ->where('invoices.status', 3)
                             ->paginate(10);
         $invoicesTotal = Invoice::indexQuery($request->sort_field,
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)
                             ->search('"'. $request->input('search'). '"')
-                            ->where('invoice.status', 3)
+                            ->where('invoices.status', 3)
                             ->get();
         $count = $invoicesTotal->count();
 
@@ -256,7 +256,7 @@ class InvoicesController extends Controller
                                                     '=',
                                                     'cheque_details.payment_id')
                                         ->whereRaw("payment_details.invoice_id = $id AND (cheque_details.`status` = 2 or cheque_details.`status` IS NULL)")
-                                        ->sum('payment_details.payment_amount')
+                                        ->sum('payment_details.payment_amount');
 
             $pending = $invoice_total - $already_paid;
             $status = \Utilities::setInvoiceStatus($pending, $invoice_total);

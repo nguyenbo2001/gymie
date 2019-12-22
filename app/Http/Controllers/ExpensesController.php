@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Expense;
 use Carbon\Carbon;
+use App\ExpenseCategory;
 use Illuminate\Http\Request;
 
 class ExpensesController extends Controller
@@ -53,7 +54,12 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        return view('expenses.create');
+        $arrExpenseCategories = array();
+        $expenseCategories = ExpenseCategory::where('status', '=', '1')->get(['id', 'name'])->toArray();
+        foreach ($expenseCategories as $expenseCategory) {
+            $arrExpenseCategories[$expenseCategory['id']] = $expenseCategory['name'];
+        }
+        return view('expenses.create', compact('arrExpenseCategories'));
     }
 
     /**
@@ -111,9 +117,15 @@ class ExpensesController extends Controller
      */
     public function edit($id)
     {
+        $arrExpenseCategories = array();
+        $expenseCategories = ExpenseCategory::where('status', '=', '1')->get(['id', 'name'])->toArray();
+        foreach ($expenseCategories as $expenseCategory) {
+            $arrExpenseCategories[$expenseCategory['id']] = $expenseCategory['name'];
+        }
+
         $expense = Expense::findOrFail($id);
 
-        return view('expenses.edit', compact('expense'));
+        return view('expenses.edit', compact('expense', 'arrExpenseCategories'));
     }
 
     /**

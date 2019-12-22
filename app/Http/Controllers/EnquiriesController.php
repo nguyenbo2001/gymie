@@ -17,7 +17,7 @@ class EnquiriesController extends Controller
     }
 
     public function index(Request $request) {
-        $inquiries = Enquiry::indexQuery($request->sort_field,
+        $enquiries = Enquiry::indexQuery($request->sort_field,
                                         $request->sort_direction,
                                         $request->drp_start,
                                         $request->drp_end)

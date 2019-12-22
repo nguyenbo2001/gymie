@@ -88,7 +88,7 @@ class DataMigrationController extends Controller
         $tax_percent = \Utilities::getSetting('taxes');
         $lines = Excel::load('import.csv')->get();
 
-        DB::beginTransactioin();
+        DB::beginTransaction();
         try {
             foreach ($lines as $line) {
                 $invoiceCounter = \Utilities::getSetting('invoice_last_number') + 1;

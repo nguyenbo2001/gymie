@@ -47,7 +47,9 @@ class SmsController extends Controller
     }
 
     public function storeEvent(Request $request) {
-        $event = new SmsEvent($request->all());
+        $data = $request->all();
+        $data['send_to'] = implode(',', $request->send_to);
+        $event = new SmsEvent($data);
         $event->createdBy()->associate(Auth::user());
         $event->updatedBy()->associate(Auth::user());
         $event->save();
@@ -63,8 +65,10 @@ class SmsController extends Controller
     }
 
     public function updateEvent(Request $request, $id) {
+        $data = $request->all();
+        $data['send_to'] = implode(',', $request->send_to);
         $event = SmsEvent::findOrFail($id);
-        $event->update($request->all());
+        $event->update($data);
         $event->updatedBy()->associate(Auth::user());
         $event->save();
 

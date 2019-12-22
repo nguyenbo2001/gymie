@@ -26,7 +26,7 @@ class PaymentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $payment_details = PaymentDetail::indexQuery($request->sort_field,
                                                     $request->sort_direction,
@@ -150,7 +150,7 @@ class PaymentsController extends Controller
             DB::commit();
             flash()->success('Payment Details were successfully stored');
 
-            return redirect(action('InvoicesController@show', ['id' => $paymentTotal->invoice_id]));
+            return redirect(action('InvoicesController@show', ['id' => $payment_detail->invoice_id]));
         } catch(\Exception $e) {
             DB::rollback();
             flash()->error('Payment Detail weren\'t stored successfully');

@@ -33,7 +33,7 @@ class MembersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $members = Member::indexQuery($request->sort_field,
                                     $request->sort_direction,
@@ -178,7 +178,7 @@ class MembersController extends Controller
         ]);
 
         // Start Transaction
-        DB::beginTransactioin();
+        DB::beginTransaction();
 
         try {
             // Store members personal details
@@ -259,7 +259,7 @@ class MembersController extends Controller
                 $subscriptionData = [
                     'member_id' => $member->id,
                     'invoice_id' => $invoice->id,
-                    'plan_id' => $plan['id'];
+                    'plan_id' => $plan['id'],
                     'start_date' => $plan['start_date'],
                     'end_date' => $plan['end_date'],
                     'status' => \constSubscription::onGoing,
@@ -346,41 +346,41 @@ class MembersController extends Controller
 
                 \Utilities::Sms($sender_id, $member->contact, $sms_text, $sms_status);
             }
-        }
 
-        if ($subscription->start_date < $member->created_at) {
-            $member->created_at = $subscription->start_date;
-            $member->updated_at = $subscription->start_date;
-            $member->save();
+            if ($subscription->start_date < $member->created_at) {
+                $member->created_at = $subscription->start_date;
+                $member->updated_at = $subscription->start_date;
+                $member->save();
 
-            $invoice->created_at = $subscription->start_date;
-            $invoice->updated_at = $subscription->start_date;
-            $invoice->save();
+                $invoice->created_at = $subscription->start_date;
+                $invoice->updated_at = $subscription->start_date;
+                $invoice->save();
 
-            foreach ($invoice->invoice_details as $invoice_detail) {
-                $invoice_detail->created_at = $subscription->start_date;
-                $invoice_detail->updated_at = $subscription->start_date;
-                $invoice_detail->save();
+                foreach ($invoice->invoice_details as $invoice_detail) {
+                    $invoice_detail->created_at = $subscription->start_date;
+                    $invoice_detail->updated_at = $subscription->start_date;
+                    $invoice_detail->save();
+                }
+
+                $payment_details->created_at = $subscription->start_date;
+                $payment_details->updated_at = $subscription->start_date;
+                $payment_details->save();
+
+                $subscription->created_at = $subscription->start_date;
+                $subscription->updated_at = $subscription->start_date;
+                $subscription->save();
             }
 
-            $payment_details->created_at = $subscription->start_date;
-            $payment_details->updated_at = $subscription->start_date;
-            $payment_details->save();
+            DB::commit();
+            flash()->success('Member was successfully created');
 
-            $subscription->created_at = $subscription->start_date;
-            $subscription->updated_at = $subscription->start_date;
-            $subscription->save();
+            return redirect(action('MembersController@show', ['id' => $member->id]));
+        } catch (\Exception $e) {
+            DB::rollback();
+            flash()->error('Error while creating the member');
+
+            return redirect(action('MembersController@index'));
         }
-
-        DB::commit();
-        flash()->success('Member was successfully created');
-
-        return redirect(action('MembersController@show',['id' => $member->id]));
-    } catch(\Exception $e) {
-        DB::rollback();
-        flash()->error('Error while creating the member');
-
-        return redirect(action('MembersController@index'));
     }
 
     /**
@@ -462,7 +462,7 @@ class MembersController extends Controller
      * @param Member $id
      */
     public function archive(Request $request, $id) {
-        Subsscriptioni::where('member_id', $id)->delete();
+        Subscription::where('member_id', $id)->delete();
 
         $invoices = Invoice::where('member_id', $id)->get();
 

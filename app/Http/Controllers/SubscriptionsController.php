@@ -47,7 +47,7 @@ class SubscriptionsController extends Controller
 
         $request->flash();
 
-        return view('subscriptioins.index', compact('subscriptions', 'count', 'drp_placeholder'));
+        return view('subscriptions.index', compact('subscriptions', 'count', 'drp_placeholder'));
     }
 
     public function expiring(Request $request) {
@@ -295,42 +295,42 @@ class SubscriptionsController extends Controller
                     $sms_status = $sms_trigger->status;
 
                     \Utilities::Sms($sender_id, $subscription->member->contact, $sms_text, $sms_status);
-                } elseif ($invoice->status == \constPaymentStatus::Unpaid) {
-                    if ($request->mode == 0) {
-                        $sms_trigger = SmsTrigger::where('alias', '=', 'payment_with_cheque')->first();
-                        $message = $sms_trigger->message;
-                        $sms_text = sprintf($message, $subscription->member->name,
-                                            $payment_details->payment_amount,
-                                            $cheque_details->number,
-                                            $invoice->invoice_number,
-                                            $gym_name);
-                        $sms_status = $sms_trigger->status;
-
-                        \Utilities::Sms($sender_id, $subscription->member->contact, $sms_text, $sms_status);
-                    } else {
-                        $sms_trigger = SmsTrigger::where('alias', '=', 'subscription_renewal_with_unpaid_invoice')->first();
-                        $message = $sms_trigger->message;
-                        $sms_text = sprintf($message, $subscription->member->name,
-                                            $payment_details->payment_amount,
-                                            $cheque_details->number,
-                                            $invoice->invoice_number,
-                                            $gym_name);
-                        $sms_status = $sms_trigger->status;
-
-                        \Utilities::Sms($sender_id, $subscription->member->contact, $sms_text, $sms_status);
-                    }
                 }
+            } elseif ($invoice->status == \constPaymentStatus::Unpaid) {
+                if ($request->mode == 0) {
+                    $sms_trigger = SmsTrigger::where('alias', '=', 'payment_with_cheque')->first();
+                    $message = $sms_trigger->message;
+                    $sms_text = sprintf($message, $subscription->member->name,
+                                        $payment_details->payment_amount,
+                                        $cheque_details->number,
+                                        $invoice->invoice_number,
+                                        $gym_name);
+                    $sms_status = $sms_trigger->status;
 
-                DB::commit();
-                flash()->success('Subscription was successfully created');
+                    \Utilities::Sms($sender_id, $subscription->member->contact, $sms_text, $sms_status);
+                } else {
+                    $sms_trigger = SmsTrigger::where('alias', '=', 'subscription_renewal_with_unpaid_invoice')->first();
+                    $message = $sms_trigger->message;
+                    $sms_text = sprintf($message, $subscription->member->name,
+                                        $payment_details->payment_amount,
+                                        $cheque_details->number,
+                                        $invoice->invoice_number,
+                                        $gym_name);
+                    $sms_status = $sms_trigger->status;
 
-                return redirect(action('SubscriptionsController@index'));
-            } catch(\Exception $e) {
-                DB::rollback();
-                flash()->error('Error while creating the Subscription');
-
-                return redirect(action('SubscriptionsController@index'));
+                    \Utilities::Sms($sender_id, $subscription->member->contact, $sms_text, $sms_status);
+                }
             }
+
+            DB::commit();
+            flash()->success('Subscription was successfully created');
+
+            return redirect(action('SubscriptionsController@index'));
+        } catch(\Exception $e) {
+            DB::rollback();
+            flash()->error('Error while creating the Subscription');
+
+            return redirect(action('SubscriptionsController@index'));
         }
     }
 

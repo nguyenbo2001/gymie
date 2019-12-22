@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Member;
-use Javascript;
+use JavaScript;
 use App\Enquiry;
 use App\Expense;
 use App\Setting;
@@ -21,10 +21,10 @@ class DashboardController extends Controller
     }
 
     public function index() {
-        // Javascript::put([
-        //     'jsRegistrationsCount' => \Utilities::registrationsTrend(),
-        //     'jsMembersPerPlan' => \Utilities::membersPerPlan(),
-        // ]);
+        JavaScript::put([
+            'jsRegistraionsCount' => \Utilities::registrationsTrend(),
+            'jsMembersPerPlan' => \Utilities::membersPerPlan(),
+        ]);
 
         $expirings = Subscription::dashboardExpiring()->paginate();
         $expiringTotal = Subscription::dashboardExpiring()->get();

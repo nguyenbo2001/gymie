@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use App\Member;
-use Javascript;
+use JavaScript;
 use App\Enquiry;
 use App\Invoice;
 use App\Service;
@@ -129,11 +129,11 @@ class MembersController extends Controller
     public function create()
     {
         // For Tax calculation
-        // Javascript::put([
-        //     'taxes' => \Utilities::getSetting('taxes'),
-        //     'gymieToday' => Carbon::today()->format('Y-m-d'),
-        //     'servicesCount' => Service::count(),
-        // ]);
+        JavaScript::put([
+            'taxes' => \Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+        ]);
 
         //Get Numbering mode
         $invoice_number_mode = \Utilities::getSetting('invoice_number_mode');
@@ -493,11 +493,11 @@ class MembersController extends Controller
      */
     public function transfer(Request $request, $id) {
         // For tax calculate
-        // Javascript::put([
-        //     'taxes' => \Utilities::getSetting('taxes'),
-        //     'gymieToday' => Carbon::today()->format('Y-m-d'),
-        //     'servicesCount' => Service::count(),
-        // ]);
+        JavaScript::put([
+            'taxes' => \Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+        ]);
 
         // Get Numbering mode
         $invoice_number_mode = \Utilities::getSetting('invoice_number_mode');

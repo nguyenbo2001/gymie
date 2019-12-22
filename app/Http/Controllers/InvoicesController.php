@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Auth;
-use Javascript;
+use JavaScript;
 use App\Invoice;
 use App\Service;
 use Carbon\Carbon;
@@ -230,11 +230,11 @@ class InvoicesController extends Controller
     public function discount($id) {
         $invoice = Invoice::findOrFail($id);
 
-        /* Javascript::put([
+        JavaScript::put([
             'taxes' => \Utilities::getSetting('taxes'),
             'gymieToday' => Carbon::today()->format('Y-m-d'),
             'servicesCount' => Service::count(),
-        ]); */
+        ]);
 
         return view('invoices.discount', compact('invoice'));
     }

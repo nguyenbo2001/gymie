@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Auth;
-use Javascript;
+use JavaScript;
 use App\Invoice;
 use App\Service;
 use App\Setting;
@@ -104,11 +104,11 @@ class SubscriptionsController extends Controller
 
     public function create() {
         // FOr tax calculate
-        // Javascript::put([
-        //     'taxes' => \Utilities::getSetting('taxes'),
-        //     'gymieToday' => Carbon::today()->format('Y-m-d'),
-        //     'servicesCount' => Service::count(),
-        // ]);
+        JavaScript::put([
+            'taxes' => \Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+        ]);
 
         // Get Numbering mode
         $invoice_number_mode = \Utilities::getSetting('invoice_number_mode');
@@ -339,11 +339,11 @@ class SubscriptionsController extends Controller
         $diff = Carbon::today()->diffInDays($subscription->end_date);
         $gymieDiff = $subscription->end_date->addDays($diff);
 
-        // Javascript::put([
-        //     'gymieToday' => Carbon::today()->format('Y-m-d'),
-        //     'gymieEndDate' => $subscription->end_date->format('Y-m-d'),
-        //     'gymieDiff' => $gymieDiff->format('Y-m-d'),
-        // ]);
+        JavaScript::put([
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'gymieEndDate' => $subscription->end_date->format('Y-m-d'),
+            'gymieDiff' => $gymieDiff->format('Y-m-d'),
+        ]);
 
         return view('subscriptions.edit', compact('subscription'));
     }
@@ -376,12 +376,12 @@ class SubscriptionsController extends Controller
         $member_id = $subscription->pluck('member_id')->first();
 
         // Javascript Variable
-        // JavaScript::put([
-        //     'taxes' => \Utilities::getSetting('taxes'),
-        //     'gymieToday' => Carbon::today()->format('Y-m-d'),
-        //     'servicesCount' => Service::count(),
-        //     'currentServices' => $subscription->count(),
-        // ]);
+        JavaScript::put([
+            'taxes' => \Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+            'currentServices' => $subscription->count(),
+        ]);
 
         return view('subscriptions.renew', compact('subscriptions', 'member_id', 'invoice_number', 'invoiceCounter', 'invoice_number_mode'));
     }
@@ -439,11 +439,11 @@ class SubscriptionsController extends Controller
                                                 'cheque_details.payment_id')
                                     ->whereRaw("payment_details.invoice_id = $subscription->invoice_id AND (cheque_details.`status` = 2 OR cheque_details.`status` IS NULL)")
                                     ->sum('payment_details.payment_amount');
-        // JavaScript::put([
-        //     'taxes' => \Utilities::getSetting('taxes'),
-        //     'gymieToday' => Carbon::today()->format('Y-m-d'),
-        //     'servicesCount' => Service::count(),
-        // ]);
+        JavaScript::put([
+            'taxes' => \Utilities::getSetting('taxes'),
+            'gymieToday' => Carbon::today()->format('Y-m-d'),
+            'servicesCount' => Service::count(),
+        ]);
 
         return view('subscriptions.change', compact('subscription', 'already_paid'));
     }

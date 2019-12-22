@@ -7,15 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta content="" name="description"/>
     <meta content="" name="author"/>
-    
+
     <title>Gymie</title>
-    
+
     <!-- BEGIN CORE FRAMEWORK -->
     <link href="{{ URL::asset('assets/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
     <!-- END CORE FRAMEWORK -->
-    
+
     <!-- BEGIN PLUGIN STYLES -->
     <link href="{{ URL::asset('assets/plugins/animate/animate.css') }}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/morris/morris.css') }}" rel="stylesheet" />
@@ -29,7 +29,7 @@
     <link href="{{ URL::asset('assets/plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/bootstrap-tokenfield/css/bootstrap-tokenfield.min.css') }}" rel="stylesheet" />
     <!-- END PLUGIN STYLES -->
-    
+
     <!-- BEGIN THEME STYLES -->
     <link href="{{ URL::asset('assets/css/material.css') }}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/css/style.css') }}" rel="stylesheet" />
@@ -53,11 +53,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </a>            
+            </a>
         </nav>
     </header>
     <!-- END HEADER -->
-         
+
     <div class="wrapper">
         <!-- BEGIN LEFTSIDE -->
         <div class="leftside hidden-print">
@@ -67,7 +67,7 @@
                     <div class="thumb">
                         <?php
                             $media = Auth::user()->getMedia();
-                            $image = ($media->isEmpty() ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=NA&w=50&h=50' : url($media[0]->getUrl('thumb')));
+                            $image = ($media->isEmpty() ? 'https://via.placeholder.com/50x50.png?text=GYMIE' : url($media[0]->getUrl('thumb')));
                         ?>
                         <img src="{{ $image }}" class="img-circle" alt="" />
                     </div>
@@ -95,7 +95,7 @@
                             <ul>
                                 <li class="{{ Utilities::setActiveMenu('enquiries/all') }}"><a href="{{ action('EnquiriesController@index') }}">All Enquiries</a></li>
                                 @permission(['manage-gymie','manage-enquiries','add-enquiry'])
-                                <li class="{{ Utilities::setActiveMenu('enquiries/create') }}"><a href="{{ action('EnquiriesController@create') }}">Add Enquiry</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('enquiries/create') }}"><a href="{{ action('EnquiriesController@create') }}">Add Enquiry</a></li>
                                 @endpermission
                             </ul>
                         </li>
@@ -109,10 +109,10 @@
                             <ul>
                                 <li class="{{ Utilities::setActiveMenu('members/all') }}"><a href="{{ action('MembersController@index') }}">All Members</a></li>
                                 @permission(['manage-gymie','manage-members','add-member'])
-                                <li class="{{ Utilities::setActiveMenu('members/create') }}"><a href="{{ action('MembersController@create') }}">Add Member</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('members/create') }}"><a href="{{ action('MembersController@create') }}">Add Member</a></li>
                                 @endpermission
                                 <li class="{{ Utilities::setActiveMenu('members/active') }}"><a href="{{ action('MembersController@active') }}">Active Members</a></li>
-                                <li class="{{ Utilities::setActiveMenu('members/inactive') }}"><a href="{{ action('MembersController@inactive') }}">Inactive Members</a></li>                                
+                                <li class="{{ Utilities::setActiveMenu('members/inactive') }}"><a href="{{ action('MembersController@inactive') }}">Inactive Members</a></li>
                             </ul>
                         </li>
                         @endpermission
@@ -125,7 +125,7 @@
                             <ul>
                                 <li class="{{ Utilities::setActiveMenu('payments/all') }}"><a href="{{ action('PaymentsController@index') }}">All Payments</a></li>
                                 @permission(['manage-gymie','manage-payments','add-payment'])
-                                <li class="{{ Utilities::setActiveMenu('payments/create') }}"><a href="{{ action('PaymentsController@create') }}">Add Payment</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('payments/create') }}"><a href="{{ action('PaymentsController@create') }}">Add Payment</a></li>
                                 @endpermission
                             </ul>
                         </li>
@@ -155,9 +155,9 @@
                                 <li class="{{-- Utilities::setActiveMenu('reports/members/*') --}}"><a href="{{-- action('ReportsController@gymMemberCharts') --}}">Members</a></li>
                                 <li class="{{-- Utilities::setActiveMenu('reports/enquiries/*') --}}"><a href="{{-- action('ReportsController@enquiryCharts') --}}">Enquiries</a></li>
                                 <li class="{{-- Utilities::setActiveMenu('reports/subscriptions/*') --}}"><a href="{{-- action('ReportsController@subscriptionCharts') --}}">Subscriptions</a></li>
-                                <li class="{{-- Utilities::setActiveMenu('reports/payments/*') --}}"><a href="{{-- action('ReportsController@paymentCharts') --}}">Payments</a></li>                            
-                                <li class="{{-- Utilities::setActiveMenu('reports/expenses/*') --}}"><a href="{{-- action('ReportsController@expenseCharts') --}}">Expenses</a></li>                            
-                                <li class="{{-- Utilities::setActiveMenu('reports/invoices/*') --}}"><a href="{{-- action('ReportsController@invoiceCharts') --}}">Invoices</a></li>                            
+                                <li class="{{-- Utilities::setActiveMenu('reports/payments/*') --}}"><a href="{{-- action('ReportsController@paymentCharts') --}}">Payments</a></li>
+                                <li class="{{-- Utilities::setActiveMenu('reports/expenses/*') --}}"><a href="{{-- action('ReportsController@expenseCharts') --}}">Expenses</a></li>
+                                <li class="{{-- Utilities::setActiveMenu('reports/invoices/*') --}}"><a href="{{-- action('ReportsController@invoiceCharts') --}}">Invoices</a></li>
                             </ul>
                         </li> -->
 
@@ -168,9 +168,9 @@
                             </a>
                             <ul>
                                 <li class="{{ Utilities::setActiveMenu('sms/triggers') }}"><a href="{{ action('SmsController@triggersIndex') }}">Triggers</a></li>
-                                <li class="{{ Utilities::setActiveMenu('sms/events') }}"><a href="{{ action('SmsController@eventsIndex') }}">Schedule message</a></li>                            
-                                <li class="{{ Utilities::setActiveMenu('sms/send') }}"><a href="{{ action('SmsController@send') }}">Send message</a></li>                            
-                                <li class="{{ Utilities::setActiveMenu('sms/log') }}"><a href="{{ action('SmsController@logIndex') }}">Log</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('sms/events') }}"><a href="{{ action('SmsController@eventsIndex') }}">Schedule message</a></li>
+                                <li class="{{ Utilities::setActiveMenu('sms/send') }}"><a href="{{ action('SmsController@send') }}">Send message</a></li>
+                                <li class="{{ Utilities::setActiveMenu('sms/log') }}"><a href="{{ action('SmsController@logIndex') }}">Log</a></li>
                             </ul>
                         </li>
                         @endpermission
@@ -198,13 +198,13 @@
                             <ul>
                                 <li class="{{ Utilities::setActiveMenu('expenses/all') }}"><a href="{{ action('ExpensesController@index') }}">All Expenses</a></li>
                                 @permission(['manage-gymie','manage-expenses','add-expense'])
-                                <li class="{{ Utilities::setActiveMenu('expenses/create') }}"><a href="{{ action('ExpensesController@create') }}">Add Expense</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('expenses/create') }}"><a href="{{ action('ExpensesController@create') }}">Add Expense</a></li>
                                 @endpermission
                                 @permission(['manage-gymie','manage-expenseCategories','view-expenseCategory'])
                                 <li class="{{ Utilities::setActiveMenu('expenses/categories/all') }}"><a href="{{ action('ExpenseCategoriesController@index') }}">Expense Categories</a></li>
                                 @endpermission
                                 @permission(['manage-gymie','manage-expenseCategories','add-expenseCategory'])
-                                <li class="{{ Utilities::setActiveMenu('expenses/categories/create') }}"><a href="{{ action('ExpenseCategoriesController@create') }}">Add Category</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('expenses/categories/create') }}"><a href="{{ action('ExpenseCategoriesController@create') }}">Add Category</a></li>
                                 @endpermission
                             </ul>
                         </li>
@@ -218,13 +218,13 @@
                             <ul>
                                 <li class="{{ Utilities::setActiveMenu('plans/all') }}"><a href="{{ action('PlansController@index') }}">All Plans</a></li>
                                 @permission(['manage-gymie','manage-plans','add-plan'])
-                                <li class="{{ Utilities::setActiveMenu('plans/create') }}"><a href="{{ action('PlansController@create') }}">Add Plan</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('plans/create') }}"><a href="{{ action('PlansController@create') }}">Add Plan</a></li>
                                 @endpermission
                                 @permission(['manage-gymie','manage-services','view-service'])
                                 <li class="{{ Utilities::setActiveMenu('plans/services/all') }}"><a href="{{ action('ServicesController@index') }}">Gym Services</a></li>
                                 @endpermission
                                 @permission(['manage-gymie','manage-services','add-service'])
-                                <li class="{{ Utilities::setActiveMenu('plans/services/create') }}"><a href="{{ action('ServicesController@create') }}">Add Service</a></li>                            
+                                <li class="{{ Utilities::setActiveMenu('plans/services/create') }}"><a href="{{ action('ServicesController@create') }}">Add Service</a></li>
                                 @endpermission
                             </ul>
                         </li>
@@ -245,7 +245,7 @@
                             </ul>
                         </li>
                         @endpermission
-                    
+
                         @permission(['manage-gymie','manage-settings'])
                         <li class="{{ Utilities::setActiveMenu('settings*') }}">
                             <a href="{{ action('SettingsController@edit') }}">
@@ -253,7 +253,7 @@
                             </a>
                         </li>
                         @endpermission
-                        
+
                         <!-- Dummy Spacer -->
                         <li>
                             <a href=""></a>
@@ -267,9 +267,9 @@
         @yield('content')
     </div><!-- /.wrapper -->
     <!-- END CONTENT -->
-        
+
     <!-- BEGIN JAVASCRIPTS -->
-    
+
     <!-- BEGIN CORE PLUGINS -->
     <script src="{{ URL::asset('assets/plugins/jquery-1.11.1.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
@@ -280,14 +280,14 @@
     <script src="{{ URL::asset('assets/plugins/sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/js/core.js') }}" type="text/javascript"></script>
     <!-- END CORE PLUGINS -->
-    
+
     <!-- datepicker -->
     <script src="{{ URL::asset('assets/plugins/bootstrap-daterangepicker/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
-    
+
     <!-- counter -->
     <script src="{{ URL::asset('assets/plugins/jquery-countTo/jquery.countTo.js') }}" type="text/javascript"></script>
-    
+
     <!-- datepicker -->
     <script src="{{ URL::asset('assets/plugins/datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
 
@@ -295,7 +295,7 @@
     <script src="{{ URL::asset('assets/plugins/bootstrapValidator/bootstrapValidator.min.js') }}" type="text/javascript"></script>
 
     {{-- @include('_jsVariables') --}}
-    
+
     <!--Footer scripts-->
     @yield('footer_scripts')
 
@@ -314,8 +314,8 @@
         gymie.loaddaterangepicker();
         gymie.loadbsselect();
 	});
-    	
-    </script> 
+
+    </script>
 
     <!-- END JAVASCRIPTS -->
 </body>

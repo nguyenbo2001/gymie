@@ -19,8 +19,8 @@ class CreateSmsEventsTable extends Migration
             $table->string('message', 500);
             $table->string('description', 140);
             $table->dateTime('date');
-            $table->boolean('status');
-            $table->integer('send_to')->comment('0 = active memeber, 1 = inactive member, 2 = lead enquiries, 3 = lost enquiries');
+            $table->boolean('status')->comment('0 = active memeber, 1 = inactive member, 2 = lead enquiries, 3 = lost enquiries');;
+            $table->string('send_to');
             $table->timestamps();
             $table->integer('created_by')->unsigned()->index('sms_events_created_by_foreign');
             $table->integer('updated_by')->unsigned()->index('sms_events_updated_by_foreign');

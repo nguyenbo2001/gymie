@@ -15,7 +15,7 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('member_id')->index('subscriptioins_member_id_foreign')->comment('links to unique record id of members');
+            $table->integer('member_id')->index('subscriptions_member_id_foreign')->comment('links to unique record id of members');
             $table->integer('invoice_id')->index('subscriptions_invoice_id_foreign')->comment('links to unique record id of invoice');
             $table->integer('plan_id')->index('subscriptions_plan_id_foreign')->comment('links to unique record if of plans');
             $table->date('start_date')->comment('start date of subscriptioin');

@@ -49,7 +49,10 @@ class ServicesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'unique:services,name']);
+        $this->validate($request, [
+            'name' => 'required|unique:services,name',
+            'description' => 'required',
+        ]);
 
         $service = new Service($request->all());
         $service->createdBy()->associate(Auth::user());

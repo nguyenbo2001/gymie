@@ -9,6 +9,16 @@ class Service extends Model
 {
     // protected $table = 'services';
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'name' => '',
+        'description' => '',
+    ];
+
     protected $fillable = [
         'name',
         'description',

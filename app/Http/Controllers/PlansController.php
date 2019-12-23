@@ -17,7 +17,7 @@ class PlansController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $plans = Plan::excludeArchive()->search('"'. $request->input('search'). '"')
                     ->paginate(10);
@@ -49,6 +49,7 @@ class PlansController extends Controller
         $this->validate($request, [
             'plan_code' => 'unique:plans,plan_code',
             'plan_name' => 'unique:plans,plan_name',
+            'service_id' => 'required',
         ]);
 
         $plan = new Plan($request->all());

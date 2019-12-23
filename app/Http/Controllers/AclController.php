@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class AclController extends Controller
 {
-    public functioin __construct() {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -173,7 +173,8 @@ class AclController extends Controller
 
             $db_permission = PermissionRole::where('role_id', $id)
                                             ->select('permission_id')
-                                            ->lists('permission_id');
+                                            ->pluck('permission_id');
+
             $client_permission = collect($request->permissions);
 
             $add_permission = $client_permission->diff($db_permission);
@@ -194,7 +195,7 @@ class AclController extends Controller
             DB::commit();
             flash()->success('Role was successfully updated');
 
-            return redirect('role');
+            return redirect('user/role');
         } catch(Exception $e) {
             DB::rollback();
             flash()->error('Role was not updated');
@@ -251,7 +252,7 @@ class AclController extends Controller
 
     public function updatePermission($id, Request $request) {
         $permission = Permission::findOrFail($id);
-        $permissions->update([
+        $permission->update([
             'name' => $request->name,
             'display_name' => $request->display_name,
             'description' => $request->description,
@@ -259,7 +260,7 @@ class AclController extends Controller
         ]);
 
         flash()->success('Permission was successfully updated');
-        return redirect('permission');
+        return redirect('user/permission');
     }
 
     public function deletePermission($id) {

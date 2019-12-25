@@ -20,6 +20,17 @@ class Followup extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'inquiry_id' => 0,
+        'followup_by' => '',
+        'due_date' => '',
+        'outcome' => '',
+        'status' => 0,
+    ];
+
     protected $dates = ['created_at', 'updated_at', 'due_date'];
 
     public function Enquiry() {

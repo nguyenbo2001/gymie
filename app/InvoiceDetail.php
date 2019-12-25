@@ -18,6 +18,15 @@ class InvoiceDetail extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'invoice_id' => 0,
+        'item_amount' => 0,
+        'plan_id' => 0,
+    ];
+
     public function createdBy() {
         return $this->belongsTo('App\User', 'created_by');
     }

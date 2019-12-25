@@ -28,6 +28,25 @@ class Enquiry extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'name' => '',
+        'DOB' => '',
+        'email' => '',
+        'address' => '',
+        'status' => 0,
+        'contact' => '',
+        'gender' => '',
+        'pin_code' => '',
+        'occupation' => '',
+        'start_by' => '',
+        'interested_in' => '',
+        'aim' => '',
+        'source' => '',
+    ];
+
     // Eloquence Search Mapping
     use Eloquence;
 

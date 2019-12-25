@@ -28,6 +28,22 @@ class Invoice extends Model
 
     protected $dates = ['created_at', 'updated_at'];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'member_id' => 0,
+        'total' => 0,
+        'pending_amount' => 0,
+        'note' => '',
+        'status' => 0,
+        'invoice_number' => '',
+        'discount_percent' => '',
+        'discount_amount' => '',
+        'discount_note' => '',
+        'tax' => 0,
+    ];
+
     use Eloquence;
 
     protected $searchableColumns = [

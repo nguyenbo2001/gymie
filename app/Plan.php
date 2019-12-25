@@ -22,6 +22,19 @@ class Plan extends Model
         'updated_by',
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'plan_code' => '',
+        'service_id' => 0,
+        'plan_name' => '',
+        'plan_details' => '',
+        'days' => 0,
+        'amount' => 0,
+        'status' => 0,
+    ];
+
     use Eloquence;
 
     protected $searchableColumns = [

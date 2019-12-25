@@ -19,6 +19,18 @@ class SmsLog extends Model
         'send_time'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'number' => '',
+        'message' => '',
+        'shoot_id' => '',
+        'status' => '',
+        'send_time' => '',
+        'sender_id' => '',
+    ];
+
     public $timestamps = false;
 
     protected $dates = ['send_time'];

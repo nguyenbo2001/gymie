@@ -17,6 +17,16 @@ class SmsTrigger extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'name' => '',
+        'alias' => '',
+        'message' => '',
+        'status' => 0,
+    ];
+
     const CREATED_AT = null;
 
     use Eloquence;

@@ -37,6 +37,29 @@ class Member extends Model implements HasMedia
 
     protected $dates = ['created_at', 'updated_at', 'DOB'];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'member_code' => '',
+        'name' => '',
+        'photo' => '',
+        'DOB' => '',
+        'email' => '',
+        'address' => '',
+        'status' => 0,
+        'proof_name' => '',
+        'proof_photo' => '',
+        'gender' => '',
+        'contact' => '',
+        'emergency_contact' => '',
+        'health_issues' => '',
+        'pin_code' => 0,
+        'occupation' => '',
+        'aim' => '',
+        'source' => '',
+    ];
+
     protected $searchableColumns = [
         'member_code' => 20,
         'name' => 20,

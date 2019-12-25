@@ -18,6 +18,14 @@ class ExpenseCategory extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Value
+     */
+    protected $attributes = [
+        'name' => '',
+        'status' => 0,
+    ];
+
     public function scopeExcludeArchive($query) {
         return $query->where('status',
                             '!=',

@@ -18,7 +18,9 @@ class Permission extends EntrustPermission
     ];
 
     protected $attributes = [
+        'description_name' => '',
         'description' => '',
+        'group_key' => '',
     ];
 
     public function Roles() {

@@ -19,6 +19,16 @@ class ChequeDetail extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'payment_id' => 0,
+        'number' => 0,
+        'date' => '',
+        'status' => 0,
+    ];
+
     // Eloquence Search Mapping
     use Eloquence;
 

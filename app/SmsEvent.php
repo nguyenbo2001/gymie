@@ -20,6 +20,18 @@ class SmsEvent extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'name' => '',
+        'message' => '',
+        'description' => '',
+        'date' => '',
+        'status' => 1,
+        'send_to' => '',
+    ];
+
     protected $dates = ['created_at', 'updated_at', 'date'];
 
     use Eloquence;

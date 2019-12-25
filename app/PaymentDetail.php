@@ -19,6 +19,16 @@ class PaymentDetail extends Model
         'updated_by',
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'invoice_id' => 0,
+        'payment_amount' => 0,
+        'mode' => '',
+        'node' => '',
+    ];
+
     use Eloquence;
 
     protected $searchableColumns = [

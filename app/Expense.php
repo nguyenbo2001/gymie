@@ -24,6 +24,19 @@ class Expense extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'name' => '',
+        'category_id' => 0,
+        'amount' => 0,
+        'due_date' => '',
+        'repeat' => 0,
+        'paid' => 0,
+        'note' => '',
+    ];
+
     // Eloquence Search Mapping
     use Eloquence;
 

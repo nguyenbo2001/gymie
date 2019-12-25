@@ -22,6 +22,19 @@ class Subscription extends Model
         'updated_by'
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'member_id' => 0,
+        'invoice_id' => 0,
+        'plan_id' => 0,
+        'start_date' => '',
+        'end_date' => '',
+        'status' => 0,
+        'is_renewal' => 0,
+    ];
+
     protected $dates = ['created_at', 'updated_at', 'start_date', 'end_date'];
 
     use Eloquence;

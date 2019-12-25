@@ -50,6 +50,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Default Values
+     */
+    protected $attributes = [
+        'name' => '',
+        'email' => '',
+        'status' => 0,
+    ];
+
     public function registerMediaConversions(Media $media = null) {
         $this->addMediaConversion('thumb')
             ->setManipulations(['w' => 50, 'h' => 50, 'q' => 100, 'fit' => 'crop'])

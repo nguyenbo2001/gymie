@@ -77,7 +77,7 @@ class EnquiriesController extends Controller
                 'pin_code' => $request->pin_code,
                 'occupation' => $request->occupation,
                 'start_by' => $request->start_by,
-                'interested_in' => implode(',', $request->interested),
+                'interested_in' => implode(',', $request->interested_in),
                 'aim' => $request->aim,
                 'source' => $request->source,
             ];
@@ -117,7 +117,7 @@ class EnquiriesController extends Controller
             return redirect(action('EnquiriesController@show', ['id' => $enquiry->id]));
         } catch(\Exception $e) {
             DB::rollback();
-            flash()->error('Error while creating the Enquiry');
+            flash()->error('Error while creating the Enquiry'. $e->getMessage());
 
             return redirect(action('EnquiriesController@index'));
         }

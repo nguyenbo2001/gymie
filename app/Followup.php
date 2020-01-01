@@ -24,7 +24,7 @@ class Followup extends Model
      * Default Values
      */
     protected $attributes = [
-        'inquiry_id' => 0,
+        'enquiry_id' => 0,
         'followup_by' => '',
         'due_date' => '',
         'outcome' => '',

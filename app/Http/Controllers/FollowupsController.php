@@ -27,7 +27,7 @@ class FollowupsController extends Controller
         $followup->save();
 
         flash()->success('Follow Up was successfully created');
-        return redirect(action('EnquiriesController@shoe', ['id' => $request->enquiry_id]))
+        return redirect(action('EnquiriesController@show', ['id' => $request->enquiry_id]));
     }
 
     /**

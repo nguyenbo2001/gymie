@@ -17,7 +17,7 @@
                             </ul>
                         </div>
                     @endif
-                    
+
                             <div class="panel no-border">
                             <div class="panel-title bg-white no-border">
                             <div class="panel-head">Enter Details of the Role</div>
@@ -30,23 +30,23 @@
                                         <div class="col-sm-4">
                                         <div class="form-group">
                                     {!! Form::label('name','Name') !!}
-                                    {!! Form::text('name',$role->name,['class'=>'form-control', 'id' => 'name']) !!}       
-                                        </div>                          
-                                        </div>                          
+                                    {!! Form::text('name',$role->name,['class'=>'form-control', 'id' => 'name']) !!}
+                                        </div>
+                                        </div>
 
                                         <div class="col-sm-4">
                                         <div class="form-group">
                                     {!! Form::label('display_name','Display name') !!}
-                                    {!! Form::text('display_name',$role->display_name,['class'=>'form-control', 'id' => 'display_name']) !!}     
-                                        </div>                          
-                                        </div>                              
+                                    {!! Form::text('display_name',$role->display_name,['class'=>'form-control', 'id' => 'display_name']) !!}
+                                        </div>
+                                        </div>
 
                                         <div class="col-sm-4">
                                         <div class="form-group">
                                     {!! Form::label('description','Description') !!}
-                                    {!! Form::text('description',$role->description,['class'=>'form-control', 'id' => 'description']) !!}        
-                                        </div>  
-                                        </div>                               
+                                    {!! Form::text('description',$role->description,['class'=>'form-control', 'id' => 'description']) !!}
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                         <h5>{{$permission_group->pluck('group_key')->pop()}}</h5>
                                           <div class="row">
                                             @foreach($permission_group as $permission)
-                                                <?php $status = ($permission_role->contains('permission_id',$permission->id) ? 'checked="checked"' : '') ?>
+                                                <?php $status = ($permission->contains('permission_id',$permission->id) ? 'checked="checked"' : '') ?>
                                                 <div class="col-xs-4">
                                                     <div class="checkbox checkbox-theme">
                                                         <input type="checkbox" name="permissions[]" id="permission_{{$permission->id}}" value="{{$permission->id}}" {{ $status }} >
@@ -69,7 +69,7 @@
                                                 </div>
                                             @endforeach
                                             </div>
-                                    @endforeach                                 
+                                    @endforeach
                                     </div>
                             </div>
 

@@ -59,13 +59,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'status' => 0,
     ];
 
+    public $registerMediaConversionsUsingModelInstance = true;
+
     public function registerMediaConversions(Media $media = null) {
         $this->addMediaConversion('thumb')
-            ->setManipulations(['w' => 50, 'h' => 50, 'q' => 100, 'fit' => 'crop'])
+            ->height(50)
+            ->width(50)
+            ->sharpen(10)
+            // ->withManipulations(['w' => 50, 'h' => 50, 'q' => 100, 'fit' => 'crop'])
             ->performOnCollections('staff');
 
         $this->addMediaConversion('form')
-            ->setManipulations(['w' => 70, 'h' => 70, 'q' => 100, 'fit' => 'crop'])
+            ->height(70)
+            ->width(70)
+            ->sharpen(10)
+            // ->withManipulations(['w' => 70, 'h' => 70, 'q' => 100, 'fit' => 'crop'])
             ->performOnCollections('staff');
     }
 

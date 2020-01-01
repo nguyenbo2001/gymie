@@ -67,13 +67,13 @@ class DataMigrationController extends Controller
                 if (file_exists($profileImage)) {
                     $member->addMedia($profileImage)
                             ->usingFileName('profile_'. $member->id . '.jpg')
-                            ->toCollection('profile');
+                            ->toMediaCollection('profile');
                 }
 
                 if (file_exists($proofImage)) {
                     $member->addMedia($proofImage)
                             ->usingFileName('proof_'. $member->id . '.jpg')
-                            ->toCollection('proof');
+                            ->toMediaCollection('proof');
                 }
 
                 DB::commit();

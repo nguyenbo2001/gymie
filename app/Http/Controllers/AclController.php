@@ -31,7 +31,8 @@ class AclController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:6',
+            'photo' => 'image|mimes:jpg,jpeg,png',
         ]);
 
         $user = User::create([
@@ -44,8 +45,8 @@ class AclController extends Controller
 
         if ($request->hasFile('photo')) {
             $user->addMedia($request->file('photo'))
-                ->usingFileName('staff_'.$user->id.$request->photo->getClientOriginalExtension())
-                ->toCollection('staff');
+                ->usingFileName('staff_'.$user->id.'.'.$request->photo->getClientOriginalExtension())
+                ->toMediaCollection('staff');
         }
         $user->save();
 
@@ -63,6 +64,10 @@ class AclController extends Controller
     }
 
     public function updateUser($id, Request $request) {
+        $this->validate($request, [
+            'photo' => 'image|mimes:jpg,jpeg,png',
+        ]);
+
         $user = User::findOrFail($id);
 
         $user->name = $request->name;
@@ -73,13 +78,13 @@ class AclController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->status = $request->status;
-        $user->updated();
+        $user->update();
 
         if ($request->hasFile('photo')) {
             $user->clearMediaCollection('staff');
             $user->addMedia($request->file('photo'))
-                ->usingFileName('staff_'.$user->id.$request->photo->getClientOriginalExtension())
-                ->toCollection('staff');
+                ->usingFileName('staff_'.$user->id.'.'.$request->photo->getClientOriginalExtension())
+                ->toMediaCollection('staff');
         }
         $user->save();
 

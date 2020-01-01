@@ -39,7 +39,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'email' => 'unique:users,email'
+            'email' => 'unique:users,email',
+            'photo' => 'image|mimes:jpg,jpeg,png',
         ]);
 
         $user = [
@@ -53,9 +54,11 @@ class UsersController extends Controller
         $user->save();
 
         if ($user->id) {
-            $user->photo = \constFilePrefix::StaffPhoto.$user->id.'.jpg';
-            $user->save();
-            \Utilities::uploadFile($request, \constFilePrefix::StaffPhoto, $user->id, 'photo', \constPaths::StaffPhoto);
+            if ($request->hasFile('photo')) {
+                $user->photo = \constFilePrefix::StaffPhoto.$user->id.'.'. $request->photo->getClientOriginalExtension();
+                $user->save();
+                \Utilities::uploadFile($request, \constFilePrefix::StaffPhoto, $user->id, 'photo', \constPaths::StaffPhoto);
+            }
 
             flash()->success('User was successfully registered');
             return redirect('users');
@@ -100,6 +103,10 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'photo' => 'image|mimes:jpg,jpeg,png',
+        ]);
+
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
@@ -108,10 +115,12 @@ class UsersController extends Controller
         }
         $user->status = $request->status;
         $user->update();
-        $user->photo = \constFilePrefix::staffPhoto.$user->id.'.jpg';
-        $user->save();
+        if ($request->hasFile('photo')) {
+            $user->photo = \constFilePrefix::staffPhoto.$user->id.'.'. $request->photo->getClientOriginalExtension();
+            $user->save();
 
-        \Utilities::uploadFile($request, \constFilePrefix::staffPhoto, $user->id, 'photo', \constPaths::staffPhoto);
+            \Utilities::uploadFile($request, \constFilePrefix::staffPhoto, $user->id, 'photo', \constPaths::staffPhoto);
+        }
 
         flash()->success('User details was successfully updated');
         return redirect('users');

@@ -210,7 +210,7 @@ class MembersController extends Controller
             if ($request->hasFile('photo')) {
                 $member->addMedia($request->file('photo'))
                         ->usingFileName('proof_'. $member->id . $request->photo->getClientOriginalExtension())
-                        ->toCollection('proof');
+                        ->toMediaCollection('proof');
             }
 
             // Helper function for calculation payment status
@@ -377,7 +377,7 @@ class MembersController extends Controller
             return redirect(action('MembersController@show', ['id' => $member->id]));
         } catch (\Exception $e) {
             DB::rollback();
-            flash()->error('Error while creating the member');
+            flash()->error('Error while creating the member<br> Error Code: '. $e->getMessage().dd($request));
 
             return redirect(action('MembersController@index'));
         }
@@ -427,7 +427,7 @@ class MembersController extends Controller
             $member->clearMediaCollection('profile');
             $member->addMedia($request->file('photo'))
                     ->usingFileName('profile_'. $member->id. $request->photo->getClientOriginalExtension())
-                    ->toCollection('profile');
+                    ->toMediaCollection('profile');
         }
 
         if ($request->hasFile('proof_photo')) {

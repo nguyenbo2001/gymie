@@ -67,14 +67,22 @@ class Member extends Model implements HasMedia
         'contact' => 20
     ];
 
+
+
     // media image size conversion
     public function registerMediaConversions(Media $media = null) {
         $this->addMediaConversion('thumb')
-            ->setManipulations(['w' => 50, 'h' => 50, 'q' => 100, 'fit' => 'crop'])
+            ->height(50)
+            ->width(50)
+            ->sharpen(10)
+            // ->setManipulations(['w' => 50, 'h' => 50, 'q' => 100, 'fit' => 'crop'])
             ->performOnCollections('profile');
 
         $this->addMediaConversion('form')
-            ->setManipulations(['w' => 70, 'h' => 70, 'q' => 100, 'fit' => 'crop'])
+            ->height(70)
+            ->width(70)
+            ->sharpen(10)
+            // ->setManipulations(['w' => 70, 'h' => 70, 'q' => 100, 'fit' => 'crop'])
             ->performOnCollections('profile', 'proof');
     }
 

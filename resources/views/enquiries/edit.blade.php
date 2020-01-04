@@ -11,9 +11,9 @@
                         <div class="panel-head font-size-20">Enter details of the enquiry</div>
                     </div>
 
-                {!! Form::model($enquiry, ['method' => 'POST','files'=>'true','action' => ['EnquiriesController@update',$enquiry->id],'id'=>'enquiriesform']) !!}
+                    {!! Form::model($enquiry, ['method' => 'POST','files'=>'true','action' => ['EnquiriesController@update',$enquiry->id],'id'=>'enquiriesform']) !!}
                     <div class="panel-body">
-                    @include('enquiries.form')
+                        @include('enquiries.form')
                         <div class="row">
                             <div class="col-sm-2 pull-right">
                                 <div class="form-group">
@@ -23,7 +23,7 @@
                         </div>
                     </div><!-- End of panel body -->
 
-                {!! Form::Close() !!}
+                    {!! Form::Close() !!}
 
                 </div><!-- / Panel no-border -->
             </div><!-- / Col-md-12 -->
@@ -32,6 +32,6 @@
 </div><!-- / rightside -->
 
 @stop
-@section('footer_scripts') 
+@section('footer_scripts')
 <script src="{{ URL::asset('assets/js/enquiry.js') }}" type="text/javascript"></script>
 @stop

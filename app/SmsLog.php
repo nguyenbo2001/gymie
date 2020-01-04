@@ -43,7 +43,8 @@ class SmsLog extends Model
         'status' => 5,
     ];
 
-    public function scopeDashboardLogs($query) {
+    public function scopeDashboardLogs($query)
+    {
         return $query->where('send_time', '<=', Carbon::now())->take(5)->orderBy('send_time', 'desc');
     }
 }

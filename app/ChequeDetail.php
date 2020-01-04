@@ -36,15 +36,18 @@ class ChequeDetail extends Model
         'number' => 20,
     ];
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Payment() {
+    public function Payment()
+    {
         return $this->belongsTo('App\PaymentDetail', 'payment_id');
     }
 }

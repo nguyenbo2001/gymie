@@ -12,29 +12,35 @@ use Illuminate\Http\Request;
 
 class EnquiriesController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function index(Request $request) {
-        $enquiries = Enquiry::indexQuery($request->sort_field,
-                                        $request->sort_direction,
-                                        $request->drp_start,
-                                        $request->drp_end)
-                            ->search('"'.$request->input('search').'"')
-                            ->paginate(10);
-        $enquiriesTotal = Enquiry::indexQuery($request->sort_field,
-                                            $request->sort_direction,
-                                            $request->drp_start,
-                                            $request->drp_end)
-                                ->search('"'. $request->input('search').'"')
-                                ->get();
+    public function index(Request $request)
+    {
+        $enquiries = Enquiry::indexQuery(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
+        $enquiriesTotal = Enquiry::indexQuery(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $enquiriesTotal->count();
 
-        if ( ! $request->has('drp_start') or ! $request->has('drp_end')) {
+        if (!$request->has('drp_start') or !$request->has('drp_end')) {
             $drp_placeholder = 'Select daterange filter';
         } else {
-            $drp_placeholder = $request->drp_start. " - ". $request->drp_end;
+            $drp_placeholder = $request->drp_start . " - " . $request->drp_end;
         }
 
         $request->flash();
@@ -42,7 +48,8 @@ class EnquiriesController extends Controller
         return view('enquiries.index', compact('enquiries', 'count', 'drp_placeholder'));
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $enquiry = Enquiry::findOrFail($id);
 
         $followups = $enquiry->followups->sortByDesc('updated_at');
@@ -50,11 +57,13 @@ class EnquiriesController extends Controller
         return view('enquiries.show', compact('enquiry', 'followups'));
     }
 
-    public function create() {
+    public function create()
+    {
         return view('enquiries.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // unique values check
         $this->validate($request, [
             'email' => 'unique:enquiries,email',
@@ -105,7 +114,7 @@ class EnquiriesController extends Controller
             $sender_id = \Utilities::getSetting('sms_sender_id');
 
             $sms_trigger = SmsTrigger::where('alias', '=', 'enquiry_placement')
-                                    ->first();
+                ->first();
             $message = $sms_trigger->message;
             $sms_text = sprintf($message, $enquiry->name, $gym_name);
             $sms_status = $sms_trigger->status;
@@ -115,21 +124,23 @@ class EnquiriesController extends Controller
             flash()->success('Enquiry was successfully created');
 
             return redirect(action('EnquiriesController@show', ['id' => $enquiry->id]));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
-            flash()->error('Error while creating the Enquiry'. $e->getMessage());
+            flash()->error('Error while creating the Enquiry ' . $e->getMessage());
 
             return redirect(action('EnquiriesController@index'));
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $enquiry = Enquiry::findOrFail($id);
 
         return view('enquiries.edit', compact('enquiry'));
     }
 
-    public function update($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $enquiry = Enquiry::findOrFail($id);
 
         $enquiry->name = $request->name;
@@ -153,7 +164,8 @@ class EnquiriesController extends Controller
         return redirect(action('EnquiriesController@show', ['id' => $enquiry->id]));
     }
 
-    public function lost($id) {
+    public function lost($id)
+    {
         $enquiry = Enquiry::findOrFail($id);
 
         $enquiry->status = \constEnquiryStatus::Lost;
@@ -165,7 +177,8 @@ class EnquiriesController extends Controller
         return redirect('enquiries/all');
     }
 
-    public function markMember($id) {
+    public function markMember($id)
+    {
         $enquiry = Enquiry::findOrFail($id);
 
         $enquiry->status = \constEnquiryStatus::Member;

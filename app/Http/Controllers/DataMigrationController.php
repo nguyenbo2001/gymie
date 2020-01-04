@@ -75,12 +75,11 @@ class DataMigrationController extends Controller
                             ->usingFileName('proof_'. $member->id . '.jpg')
                             ->toMediaCollection('proof');
                 }
-
                 DB::commit();
-            } catch(\Exception $e) {
-                DB::rollback();
-                dd($e);
             }
+        } catch(\Exception $e) {
+            DB::rollback();
+            dd($e);
         }
     }
 

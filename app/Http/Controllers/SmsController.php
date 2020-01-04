@@ -13,17 +13,20 @@ use Illuminate\Http\Request;
 
 class SmsController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function triggersIndex(Request $request) {
+    public function triggersIndex(Request $request)
+    {
         $triggers = SmsTrigger::search($request->input('search'))->get();
 
         return view('sms.triggers.index', compact('triggers'));
     }
 
-    public function triggerUpdate(Request $request) {
+    public function triggerUpdate(Request $request)
+    {
         $DBtriggers = SmsTrigger::all();
         $Clienttriggers = collect($request->triggers);
 
@@ -36,17 +39,20 @@ class SmsController extends Controller
         return redirect('sms/triggers');
     }
 
-    public function eventsIndex(Request $request) {
+    public function eventsIndex(Request $request)
+    {
         $events = SmsEvent::search($request->input('search'))->paginate(10);
 
         return view('sms.events.index', compact('events'));
     }
 
-    public function createEvent() {
+    public function createEvent()
+    {
         return view('sms.events.create');
     }
 
-    public function storeEvent(Request $request) {
+    public function storeEvent(Request $request)
+    {
         $data = $request->all();
         $data['send_to'] = implode(',', $request->send_to);
         $event = new SmsEvent($data);
@@ -58,13 +64,15 @@ class SmsController extends Controller
         return redirect('sms/events');
     }
 
-    public function editEvent($id) {
+    public function editEvent($id)
+    {
         $event = SmsEvent::findOrFail($id);
 
         return view('sms.events.edit', compact('event'));
     }
 
-    public function updateEvent(Request $request, $id) {
+    public function updateEvent(Request $request, $id)
+    {
         $data = $request->all();
         $data['send_to'] = implode(',', $request->send_to);
         $event = SmsEvent::findOrFail($id);
@@ -76,7 +84,8 @@ class SmsController extends Controller
         return redirect('sms/events');
     }
 
-    public function destroyEvent($id) {
+    public function destroyEvent($id)
+    {
         $event = SmsEvent::findOrFail($id);
         $event->delete();
 
@@ -84,16 +93,18 @@ class SmsController extends Controller
         return redirect('sms/events');
     }
 
-    public function send() {
+    public function send()
+    {
         return view('sms.send');
     }
 
-    public function shoot(Request $request) {
+    public function shoot(Request $request)
+    {
         $sms_text = $request->message;
         $sender_id = $request->sender_id;
 
         foreach ($request->send as $sendnow) {
-            switch($sendnow) {
+            switch ($sendnow) {
                 case 0:
                     $recievers = Member::where('status', 1)->get();
                     foreach ($recievers as $reciever) {
@@ -138,15 +149,17 @@ class SmsController extends Controller
         return redirect('sms/send');
     }
 
-    public function logIndex(Request $request) {
+    public function logIndex(Request $request)
+    {
         $smslogs = SmsLog::orderBy('send_time', 'desc')
-                        ->search('"'. $request->input('search'). '"')
-                        ->paginate(10);
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
 
         return view('sms.log', compact('smslogs'));
     }
 
-    public function logRefresh() {
+    public function logRefresh()
+    {
         \Utilities::smsStatusUpdate();
 
         flash()->success('SMS logs have been refreshed');

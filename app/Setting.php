@@ -15,7 +15,8 @@ class Setting extends Model
 
     const CREATED_AT = null;
 
-    public function scopeValue($query) {
+    public function scopeValue($query)
+    {
         return $query->where('value', '=', 'xyz')->pluck('key');
     }
 }

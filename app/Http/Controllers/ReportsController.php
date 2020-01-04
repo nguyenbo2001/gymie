@@ -7,51 +7,63 @@ use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function gymMemberCharts() {
+    public function gymMemberCharts()
+    {
         return view('reports.members.charts');
     }
 
-    public function enquiryCharts() {
+    public function enquiryCharts()
+    {
         return view('reports.enquiries.charts');
     }
 
-    public function subscriptionCharts() {
+    public function subscriptionCharts()
+    {
         return view('reports.subscriptions.charts');
     }
 
-    public function paymentCharts() {
+    public function paymentCharts()
+    {
         return view('reports.expenses.charts');
     }
 
-    public function invoiceCharts() {
+    public function invoiceCharts()
+    {
         return view('reports.invoices.charts');
     }
 
-    public function gymMemberData(Request $request) {
+    public function gymMemberData(Request $request)
+    {
         return view('reports.members.data');
     }
 
-    public function enquiryData() {
+    public function enquiryData()
+    {
         return view('reports.enquiries.data');
     }
 
-    public function subscriptionData() {
+    public function subscriptionData()
+    {
         return view('reports.subscriptions.data');
     }
 
-    public function paymentData() {
+    public function paymentData()
+    {
         return view('reports.payments.data');
     }
 
-    public function expenseData() {
+    public function expenseData()
+    {
         return view('reports.expenses.data');
     }
 
-    public function invoiceData() {
+    public function invoiceData()
+    {
         return view('reports.invoices.data');
     }
 }

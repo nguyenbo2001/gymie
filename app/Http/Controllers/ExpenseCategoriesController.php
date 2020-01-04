@@ -11,7 +11,8 @@ class ExpenseCategoriesController extends Controller
     /**
      * init function
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -117,7 +118,8 @@ class ExpenseCategoriesController extends Controller
         //
     }
 
-    public function archive($id, Request $request) {
+    public function archive($id, Request $request)
+    {
         ExpenseCategory::destroy($id);
 
         return redirect('expenses/categories');

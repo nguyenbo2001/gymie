@@ -37,65 +37,82 @@ class PaymentDetail extends Model
         'Invoice.member.name' => 20,
     ];
 
-    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end) {
+    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end)
+    {
         $sorting_field = ($sorting_field != null ? $sorting_field : 'created_by');
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->leftJoin('invoices',
-                                    'payment_details.invoice_id',
-                                    '=',
-                                    'invoices.id')
-                        ->leftJoin('members',
-                                    'invoices.member_id',
-                                    '=',
-                                    'members.id')
-                        ->select('payment_details.id',
-                                'payment_details.created_at',
-                                'payment_details.payment_amount',
-                                'payment_details.mode',
-                                'payment_details.invoice_id',
-                                'invoices.invoice_number',
-                                'members.id as member_id',
-                                'members.name as member_name',
-                                'members.member_code')
-                        ->orderBy('payment_details.' . $sorting_field, $sorting_direction);
+            return $query->leftJoin(
+                'invoices',
+                'payment_details.invoice_id',
+                '=',
+                'invoices.id'
+            )
+                ->leftJoin(
+                    'members',
+                    'invoices.member_id',
+                    '=',
+                    'members.id'
+                )
+                ->select(
+                    'payment_details.id',
+                    'payment_details.created_at',
+                    'payment_details.payment_amount',
+                    'payment_details.mode',
+                    'payment_details.invoice_id',
+                    'invoices.invoice_number',
+                    'members.id as member_id',
+                    'members.name as member_name',
+                    'members.member_code'
+                )
+                ->orderBy('payment_details.' . $sorting_field, $sorting_direction);
         }
 
-        return $query->leftJoin('invoices',
-                                'payment_details.invoice_id',
-                                '=',
-                                'invoices.id')
-                    ->leftJoin('members',
-                                'invoices.member_id',
-                                '=',
-                                'members.id')
-                    ->select('payment_details.id',
-                            'payment_details.created_at',
-                            'payment_details.payment_amount',
-                            'payment_details.mode',
-                            'payment_details.invoice_id',
-                            'invoices.invoice_number',
-                            'members.id as member_id',
-                            'members.name as member_name',
-                            'members.member_code')
-                    ->whereBetween('payment_details.created_at', [$drp_start, $drp_end])
-                    ->orderBy('payment_details.' . $sorting_field, $sorting_direction);
+        return $query->leftJoin(
+            'invoices',
+            'payment_details.invoice_id',
+            '=',
+            'invoices.id'
+        )
+            ->leftJoin(
+                'members',
+                'invoices.member_id',
+                '=',
+                'members.id'
+            )
+            ->select(
+                'payment_details.id',
+                'payment_details.created_at',
+                'payment_details.payment_amount',
+                'payment_details.mode',
+                'payment_details.invoice_id',
+                'invoices.invoice_number',
+                'members.id as member_id',
+                'members.name as member_name',
+                'members.member_code'
+            )
+            ->whereBetween('payment_details.created_at', [$drp_start, $drp_end])
+            ->orderBy('payment_details.' . $sorting_field, $sorting_direction);
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Invoice() {
+    public function Invoice()
+    {
         return $this->belongsTo('App\Invoice', 'invoice_id');
     }
 
-    public function Cheque() {
+    public function Cheque()
+    {
         return $this->hasOne('App\ChequeDetail', 'payment_id');
     }
 }

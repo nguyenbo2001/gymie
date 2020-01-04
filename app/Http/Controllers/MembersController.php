@@ -24,7 +24,8 @@ class MembersController extends Controller
      * Function init
      * Init Middleware
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -35,22 +36,26 @@ class MembersController extends Controller
      */
     public function index(Request $request)
     {
-        $members = Member::indexQuery($request->sort_field,
-                                    $request->sort_direction,
-                                    $request->drp_start,
-                                    $request->drp_end)
-                        ->search('"'. $request->input('search'). '"')
-                        ->paginate(10);
+        $members = Member::indexQuery(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
 
-        $memberTotal = Member::indexQuery($request->sort_field,
-                                    $request->sort_direction,
-                                    $request->drp_start,
-                                    $request->drp_end)
-                        ->search('"'. $request->input('search'). '"')
-                        ->get();
+        $memberTotal = Member::indexQuery(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $memberTotal->count();
 
-        if ( !$request->has('drp_start') or ! $request->has('drp_end')) {
+        if (!$request->has('drp_start') or !$request->has('drp_end')) {
             $drp_placeholder = 'Select daterange filter';
         } else {
             $drp_placeholder = $request->drp_start . ' - ' . $request->drp_end;
@@ -64,26 +69,31 @@ class MembersController extends Controller
     /**
      * Function Active
      */
-    public function active(Request $request) {
-        $members = Member::active($request->sort_field,
-                                $request->sort_direction,
-                                $request->drp_start,
-                                $request->drp_end)
-                        ->search('"'. $request->input('search'). '"')
-                        ->paginate(10);
+    public function active(Request $request)
+    {
+        $members = Member::active(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
 
-        $Totalmembers = Member::active($request->sort_field,
-                                $request->sort_direction,
-                                $request->drp_start,
-                                $request->drp_end)
-                        ->search('"'. $request->input('search'). '"')
-                        ->get();
+        $Totalmembers = Member::active(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $Totalmembers->count();
 
-        if (! $request->has('drp_start') or ! $request->has('drp_end')) {
+        if (!$request->has('drp_start') or !$request->has('drp_end')) {
             $drp_placeholder = 'Select daterange filter';
         } else {
-            $drp_placeholder = $request->drp_start . ' - '. $request->drp_end;
+            $drp_placeholder = $request->drp_start . ' - ' . $request->drp_end;
         }
 
         $request->flash();
@@ -94,26 +104,31 @@ class MembersController extends Controller
     /**
      * Function Inactive
      */
-    public function inactive(Request $request) {
-        $members = Member::inactive($request->sort_field,
-                                $request->sort_direction,
-                                $request->drp_start,
-                                $request->drp_end)
-                        ->search('"'. $request->input('search'). '"')
-                        ->paginate(10);
+    public function inactive(Request $request)
+    {
+        $members = Member::inactive(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
 
-        $Totalmembers = Member::inactive($request->sort_field,
-                                $request->sort_direction,
-                                $request->drp_start,
-                                $request->drp_end)
-                        ->search('"'. $request->input('search'). '"')
-                        ->get();
+        $Totalmembers = Member::inactive(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $Totalmembers->count();
 
-        if (! $request->has('drp_start') or ! $request->has('drp_end')) {
+        if (!$request->has('drp_start') or !$request->has('drp_end')) {
             $drp_placeholder = 'Select daterange filter';
         } else {
-            $drp_placeholder = $request->drp_start . ' - '. $request->drp_end;
+            $drp_placeholder = $request->drp_start . ' - ' . $request->drp_end;
         }
 
         $request->flash();
@@ -143,7 +158,7 @@ class MembersController extends Controller
         if ($invoice_number_mode == \constNumberingMode::Auto) {
             $invoiceCounter = \Utilities::getSetting('invoice_last_number') + 1;
             $invoicePrefix = \Utilities::getSetting('invoice_prefix');
-            $invoice_number = $invoicePrefix.$invoiceCounter;
+            $invoice_number = $invoicePrefix . $invoiceCounter;
         } else {
             $invoice_number = '';
             $invoiceCounter = '';
@@ -153,7 +168,7 @@ class MembersController extends Controller
         if ($member_number_mode == \constNumberingMode::Auto) {
             $memberCounter = \Utilities::getSetting('member_last_number') + 1;
             $memberPrefix = \Utilities::getSetting('member_prefix');
-            $member_code = $memberPrefix.$memberCounter;
+            $member_code = $memberPrefix . $memberCounter;
         } else {
             $member_code = '';
             $memberCounter = '';
@@ -209,23 +224,25 @@ class MembersController extends Controller
             // Adding media profile & proof photo
             if ($request->hasFile('photo')) {
                 $member->addMedia($request->file('photo'))
-                        ->usingFileName('proof_'. $member->id . $request->photo->getClientOriginalExtension())
-                        ->toMediaCollection('proof');
+                    ->usingFileName('proof_' . $member->id . $request->photo->getClientOriginalExtension())
+                    ->toMediaCollection('proof');
             }
 
             // Helper function for calculation payment status
             $invoice_total = $request->addmission_amount +
-                            $request->subscription_amount +
-                            $request->taxes_amount -
-                            $request->discount_amount;
+                $request->subscription_amount +
+                $request->taxes_amount -
+                $request->discount_amount;
             $paymentStatus = \constPaymentStatus::Unpaid;
             $pending = $invoice_total - $request->payment_amount;
 
             if ($request->mode == 1) {
                 if ($request->payment_amount == $invoice_total) {
                     $paymentStatus = \constPaymentStatus::Paid;
-                } elseif ($request->payment_amount > 0 &&
-                            $request->payment_amount < $invoice_total) {
+                } elseif (
+                    $request->payment_amount > 0 &&
+                    $request->payment_amount < $invoice_total
+                ) {
                     $paymentStatus = \constPaymentStatus::Partial;
                 } elseif ($request->payment_amount == 0) {
                     $paymentStatus = \constPaymentStatus::Unpaid;
@@ -314,34 +331,34 @@ class MembersController extends Controller
 
             // Updating Numbering Counters
             Setting::where('key', '=', 'invoice_last_number')
-                    ->update(['value' => $request->invoiceCounter]);
+                ->update(['value' => $request->invoiceCounter]);
             Setting::where('key', '=', 'member_last_number')
-                    ->update(['value' => $request->memberCounter]);
+                ->update(['value' => $request->memberCounter]);
             $sender_id = \Utilities::getSetting('sms_sender_id');
             $gym_name = \Utilities::getSetting('gym_name');
 
             // SMS Trigger
             if ($invoice->status == \constPaymentStatus::Paid) {
                 $sms_trigger = SmsTrigger::where('alias', '=', 'member_admission_with_paid_invoice')
-                                        ->first();
+                    ->first();
                 $message = $sms_trigger->message;
-                $sms_text = sprintf($message. $member->name, $gym_name, $payment_details->payment_amount, $invoice->invoice_number);
+                $sms_text = sprintf($message, $member->name, $gym_name, $payment_details->payment_amount, $invoice->invoice_number);
                 $sms_status = $sms_trigger->status;
 
                 \Utilities::Sms($sender_id, $member->contact, $sms_text, $sms_status);
-            } elseif( $invoice->status == \constPaymentStatus::Partial) {
+            } elseif ($invoice->status == \constPaymentStatus::Partial) {
                 $sms_trigger = SmsTrigger::where('alias', '=', 'member_admission_with_partial_invoice')
-                                        ->first();
+                    ->first();
                 $message = $sms_trigger->message;
-                $sms_text = sprintf($message. $member->name, $gym_name, $payment_details->payment_amount, $invoice->invoice_number);
+                $sms_text = sprintf($message, $member->name, $gym_name, $payment_details->payment_amount, $invoice->invoice_number);
                 $sms_status = $sms_trigger->status;
 
                 \Utilities::Sms($sender_id, $member->contact, $sms_text, $sms_status);
             } else {
                 $sms_trigger = SmsTrigger::where('alias', '=', 'member_admission_with_unpaid_invoice')
-                                        ->first();
+                    ->first();
                 $message = $sms_trigger->message;
-                $sms_text = sprintf($message. $member->name, $gym_name, $payment_details->payment_amount, $invoice->invoice_number);
+                $sms_text = sprintf($message . $member->name, $gym_name, $payment_details->payment_amount, $invoice->invoice_number);
                 $sms_status = $sms_trigger->status;
 
                 \Utilities::Sms($sender_id, $member->contact, $sms_text, $sms_status);
@@ -356,7 +373,7 @@ class MembersController extends Controller
                 $invoice->updated_at = $subscription->start_date;
                 $invoice->save();
 
-                foreach ($invoice->invoice_details as $invoice_detail) {
+                foreach ($invoice->InvoiceDetails as $invoice_detail) {
                     $invoice_detail->created_at = $subscription->start_date;
                     $invoice_detail->updated_at = $subscription->start_date;
                     $invoice_detail->save();
@@ -377,7 +394,7 @@ class MembersController extends Controller
             return redirect(action('MembersController@show', ['id' => $member->id]));
         } catch (\Exception $e) {
             DB::rollback();
-            flash()->error('Error while creating the member<br> Error Code: '. $e->getMessage().dd($request));
+            flash()->error('Error while creating the member<br> Error Code: ' . $e->getMessage());
 
             return redirect(action('MembersController@index'));
         }
@@ -426,15 +443,15 @@ class MembersController extends Controller
         if ($request->hasFile('photo')) {
             $member->clearMediaCollection('profile');
             $member->addMedia($request->file('photo'))
-                    ->usingFileName('profile_'. $member->id. $request->photo->getClientOriginalExtension())
-                    ->toMediaCollection('profile');
+                ->usingFileName('profile_' . $member->id . $request->photo->getClientOriginalExtension())
+                ->toMediaCollection('profile');
         }
 
         if ($request->hasFile('proof_photo')) {
             $member->clearMediaCollection('proof');
             $member->addMedia($request->file('proof_photo'))
-                    ->usingFileName('proof_'. $member->id. $request->photo->getClientOriginalExtension())
-                    ->toCollectioin('proof');
+                ->usingFileName('proof_' . $member->id . $request->photo->getClientOriginalExtension())
+                ->toCollectioin('proof');
         }
 
         $member->updatedBy()->associate(Auth::user());
@@ -461,7 +478,8 @@ class MembersController extends Controller
      *
      * @param Member $id
      */
-    public function archive(Request $request, $id) {
+    public function archive(Request $request, $id)
+    {
         Subscription::where('member_id', $id)->delete();
 
         $invoices = Invoice::where('member_id', $id)->get();
@@ -491,7 +509,8 @@ class MembersController extends Controller
      *
      * @param Inquiry $id
      */
-    public function transfer(Request $request, $id) {
+    public function transfer(Request $request, $id)
+    {
         // For tax calculate
         JavaScript::put([
             'taxes' => \Utilities::getSetting('taxes'),
@@ -507,7 +526,7 @@ class MembersController extends Controller
         if ($invoice_number_mode == \constNumberingMode::Auto) {
             $invoiceCounter = \Utilities::getSetting('invoice_last_number') + 1;
             $invoicePrefix = \Utilities::getSetting('invoice_prefix');
-            $invoice_number = $invoicePrefix.$invoiceCounter;
+            $invoice_number = $invoicePrefix . $invoiceCounter;
         } else {
             $invoice_number = '';
             $invoiceCounter = '';
@@ -517,7 +536,7 @@ class MembersController extends Controller
         if ($member_number_mode == \constNumberingMode::Auto) {
             $memberCounter = \Utilities::getSetting('member_last_number') + 1;
             $memberPrefix = \Utilities::getSetting('member_prefix');
-            $member_code = $memberPrefix.$memberCounter;
+            $member_code = $memberPrefix . $memberCounter;
         } else {
             $member_code = '';
             $memberCounter = '';
@@ -525,9 +544,14 @@ class MembersController extends Controller
 
         $enquiry = Enquiry::findOrFail($id);
 
-        return view('members.transfer', compact('enquiry', 'invoice_number',
-                                                'invoiceCounter', 'member_code',
-                                                'memberCounter', 'member_number_mode',
-                                                'invoice_number_mode'));
+        return view('members.transfer', compact(
+            'enquiry',
+            'invoice_number',
+            'invoiceCounter',
+            'member_code',
+            'memberCounter',
+            'member_number_mode',
+            'invoice_number_mode'
+        ));
     }
 }

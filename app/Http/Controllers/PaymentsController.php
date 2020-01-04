@@ -17,7 +17,8 @@ class PaymentsController extends Controller
      *
      * Init Middleware Auth
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -28,21 +29,25 @@ class PaymentsController extends Controller
      */
     public function index(Request $request)
     {
-        $payment_details = PaymentDetail::indexQuery($request->sort_field,
-                                                    $request->sort_direction,
-                                                    $request->drp_start,
-                                                    $request->drp_end)
-                                        ->search('"'. $request->input('search'). '"')
-                                        ->paginate(10);
-        $paymentTotal = PaymentDetail::indexQuery($request->sort_field,
-                                                    $request->sort_direction,
-                                                    $request->drp_start,
-                                                    $request->drp_end)
-                                        ->search('"'. $request->input('search'). '"')
-                                        ->get();
+        $payment_details = PaymentDetail::indexQuery(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
+        $paymentTotal = PaymentDetail::indexQuery(
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $paymentTotal->sum('payment_amount');
 
-        if ( ! $request->has('drp_start') or ! $request->has('drp_end')) {
+        if (!$request->has('drp_start') or !$request->has('drp_end')) {
             $drp_placeholder = 'Select daterange filter';
         } else {
             $drp_placeholder = $request->drp_start . ' - ' . $request->drp_end;
@@ -95,7 +100,7 @@ class PaymentsController extends Controller
                 // Updating Invoice Status and amounts
                 $invoice_total = $payment_detail->invoice->total;
                 $payment_total = PaymentDetail::where('invoice_id', $payment_detail->invoice_id)
-                                                ->sum('payment_amount');
+                    ->sum('payment_amount');
                 $amount_due = $invoice_total - $payment_total;
 
                 $payment_detail->invoice->pending_amount = $amount_due;
@@ -106,7 +111,7 @@ class PaymentsController extends Controller
             // If cheque reissued, set the status of the previous cheque detail to Reissued
             if ($request->has('previousPayment')) {
                 $cheque_detail = ChequeDetail::where('payment_id', $request->previousPayment)
-                                            ->first();
+                    ->first();
                 $cheque_detail->status = \constChequeStatus::Reissued;
                 $cheque_detail->save();
             }
@@ -117,41 +122,50 @@ class PaymentsController extends Controller
 
             if ($request->mode == \constPaymentMode::Cash) {
                 $sms_trigger = SmsTrigger::where('alias', '=', 'payment_recieved')
-                                        ->first();
+                    ->first();
                 $message = $sms_trigger->message;
-                $sms_text = sprintf($message, $payment_detail->invoice->member->name,
-                                    $payment_detail->payment_amount,
-                                    $payment_detail->invoice->invoice_number);
+                $sms_text = sprintf(
+                    $message,
+                    $payment_detail->invoice->member->name,
+                    $payment_detail->payment_amount,
+                    $payment_detail->invoice->invoice_number
+                );
                 $sms_status = $sms_trigger->status;
                 $sender_id = \Utilities::getSetting('sms_sender_id');
 
-                \Utilities::Sms($sender_id,
-                                $payment_detail->invoice->member->contact,
-                                $sms_text,
-                                $sms_status);
+                \Utilities::Sms(
+                    $sender_id,
+                    $payment_detail->invoice->member->contact,
+                    $sms_text,
+                    $sms_status
+                );
             } elseif ($request->mode == \constPaymentMode::Cheque) {
                 $sms_trigger = SmsTrigger::where('alias', '=', 'payment_with_cheque')
-                                        ->first();
+                    ->first();
                 $message = $sms_trigger->message;
-                $sms_text = sprintf($message,
-                                    $payment_detail->invoice->member->name,
-                                    $payment_detail->payment_amount,
-                                    $cheque_details->number,
-                                    $payment_detail->invoice->invoice_number,
-                                    $gym_name);
+                $sms_text = sprintf(
+                    $message,
+                    $payment_detail->invoice->member->name,
+                    $payment_detail->payment_amount,
+                    $cheque_details->number,
+                    $payment_detail->invoice->invoice_number,
+                    $gym_name
+                );
                 $sms_status = $sms_trigger->status;
 
-                \Utilities::Sms($sender_id,
-                                $payment_detail->invoice->member->contact,
-                                $sms_text,
-                                $sms_status);
+                \Utilities::Sms(
+                    $sender_id,
+                    $payment_detail->invoice->member->contact,
+                    $sms_text,
+                    $sms_status
+                );
             }
 
             DB::commit();
             flash()->success('Payment Details were successfully stored');
 
             return redirect(action('InvoicesController@show', ['id' => $payment_detail->invoice_id]));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Payment Detail weren\'t stored successfully');
 
@@ -214,7 +228,7 @@ class PaymentsController extends Controller
                 // Updating Invoice Status and amounts
                 $invoice_total = $payment_detail->invoice->total;
                 $payment_total = PaymentDetail::where('invoice_id', $payment_detail->invoice_id)
-                                            ->sum('payment_amount');
+                    ->sum('payment_amount');
                 $amount_due = $invoice_total - $payment_total;
 
                 $payment_detail->invoice->pending_amount = $amount_due;
@@ -227,7 +241,7 @@ class PaymentsController extends Controller
             flash()->success('Payment Details were successfully updated');
 
             return redirect(action('InvoicesController@show', ['id' => $payment_detail->invoice_id]));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Payment Details weren\'t updated successfully');
 
@@ -251,14 +265,15 @@ class PaymentsController extends Controller
      *
      * @param PaymentDetail $id
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         DB::beginTransaction();
         try {
             $payment_detail = PaymentDetail::findOrFail($id);
             $invoice = Invoice::where('id', $payment_detail->invoice_id)
-                            ->first();
+                ->first();
             $cheque_details = ChequeDetail::where('payment_id', $payment_detail->id)
-                                        ->get();
+                ->get();
 
             foreach ($cheque_details as $cheque_detail) {
                 $cheque_detail->delete();
@@ -267,12 +282,14 @@ class PaymentsController extends Controller
             $payment_detail->delete();
 
             $invoice_total = $invoice->total;
-            $payment_total = PaymentDetail::leftJoin('cheque_details',
-                                                    'payment_details.id',
-                                                    '=',
-                                                    'cheque_details.payment_id')
-                                        ->whereRaw("payment_details.invoice_id = $invoice->id AND (cheque_details.`status` = 2 OR cheque_detail.`status` IS NULL)")
-                                        ->sum('payment_details.payment_amount');
+            $payment_total = PaymentDetail::leftJoin(
+                'cheque_details',
+                'payment_details.id',
+                '=',
+                'cheque_details.payment_id'
+            )
+                ->whereRaw("payment_details.invoice_id = $invoice->id AND (cheque_details.`status` = 2 OR cheque_detail.`status` IS NULL)")
+                ->sum('payment_details.payment_amount');
             $amount_due = $invoice_total - $payment_total;
 
             $invoice->pending_amount = $amount_due;
@@ -283,25 +300,27 @@ class PaymentsController extends Controller
             DB::commit();
 
             return redirect('payments/all');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
 
             return redirect('payments/all');
         }
     }
 
-    public function depositCheque($id) {
+    public function depositCheque($id)
+    {
         ChequeDetail::where('payment_id', $id)
-                    ->udpate([
-                        'status' => \constChequeStatus::Deposited,
-                    ]);
+            ->udpate([
+                'status' => \constChequeStatus::Deposited,
+            ]);
 
         flash()->success('Cheque has been marked as deposited');
 
         return back();
     }
 
-    public function clearCheque($id) {
+    public function clearCheque($id)
+    {
         DB::beginTransaction();
         try {
             $payment_detail = PaymentDetail::findOrFail($id);
@@ -314,12 +333,14 @@ class PaymentsController extends Controller
 
             // Updating Invoice Status and amounts
             $invoice_total = $payment_detail->invoice->total;
-            $payment_total = PaymentDetail::leftJoin('cheque_details',
-                                                    'payment_detais.id',
-                                                    '=',
-                                                    'cheque_details.payment_id')
-                                        ->whereRaw("payment_details.invoice_id = $payment_detail->invoice_id AND (cheque_details.`status` = 2 OR cheque_details.`status` IS NULL)")
-                                        ->sum('payment_details.payment_amount');
+            $payment_total = PaymentDetail::leftJoin(
+                'cheque_details',
+                'payment_detais.id',
+                '=',
+                'cheque_details.payment_id'
+            )
+                ->whereRaw("payment_details.invoice_id = $payment_detail->invoice_id AND (cheque_details.`status` = 2 OR cheque_details.`status` IS NULL)")
+                ->sum('payment_details.payment_amount');
             $amount_due = $invoice_total - $payment_total;
             $payment_detail->invoice->pending_amount = $amount_due;
             $payment_detail->invoice->status = \Utilities::setInvoiceStatus($amount_due, $invoice_total);
@@ -329,7 +350,7 @@ class PaymentsController extends Controller
             flash()->success('Cheque has been marked as cleared');
 
             return back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Error while marking the cheque as cleared');
 
@@ -337,17 +358,19 @@ class PaymentsController extends Controller
         }
     }
 
-    public function chequeBounce($id) {
+    public function chequeBounce($id)
+    {
         ChequeDetail::where('payment_id', $id)
-                    ->update([
-                        'status' => \constChequeStatus::Bounced,
-                    ]);
+            ->update([
+                'status' => \constChequeStatus::Bounced,
+            ]);
         flash()->success('Cheque has been marked as bounced');
 
         return back();
     }
 
-    public function chequeReissue($id) {
+    public function chequeReissue($id)
+    {
         $payment_detail = PaymentDetail::findOrFail($id);
 
         return view('payments.reissue', compact('payment_detail'));

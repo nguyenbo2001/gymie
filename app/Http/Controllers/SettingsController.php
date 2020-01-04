@@ -10,7 +10,8 @@ class SettingsController extends Controller
     /**
      * Function Init
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -38,15 +39,16 @@ class SettingsController extends Controller
         return view('settings.edit', compact('settings'));
     }
 
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         // Get all input except _token to loop through and save
         $settings = $request->except('_token');
 
         // Update all settings
         foreach ($settings as $key => $value) {
             if ($key == 'gym_logo') {
-                \Utilities::updateFile($request, '', $key, 'gym_logo', \constPaths::GymLogo);
-                $value = $key.'.jpg';
+                \Utilities::uploadFile($request, '', $key, 'gym_logo', \constPaths::GymLogo);
+                $value = $key . '.jpg';
             }
 
             Setting::where('key', '=', $key)->update(['value' => $value]);

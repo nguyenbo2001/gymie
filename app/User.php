@@ -61,7 +61,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public $registerMediaConversionsUsingModelInstance = true;
 
-    public function registerMediaConversions(Media $media = null) {
+    public function registerMediaConversions(Media $media = null)
+    {
         $this->addMediaConversion('thumb')
             ->height(50)
             ->width(50)
@@ -77,16 +78,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->performOnCollections('staff');
     }
 
-    public function scopeExcludeArchive($query) {
+    public function scopeExcludeArchive($query)
+    {
         if (Auth::User()->id != 1) {
             return $query->where('status', '!=', \constStatus::Archive)
-                        ->where('id', '!=', 1);
+                ->where('id', '!=', 1);
         }
 
         return $query->where('status', '!=', \constStatus::Archive);
     }
 
-    public function role_user() {
+    public function role_user()
+    {
         return $this->hasOne('App\RoleUser');
     }
 }

@@ -43,31 +43,38 @@ class Plan extends Model
         'plan_details' => 5,
     ];
 
-    public function getPlanDisplayAttribute() {
-        return $this->plan_code. ' @ '.$this->amount. ' For '.$this->days.' Days';
+    public function getPlanDisplayAttribute()
+    {
+        return $this->plan_code . ' @ ' . $this->amount . ' For ' . $this->days . ' Days';
     }
 
-    public function scopeExcludeArchive($query) {
+    public function scopeExcludeArchive($query)
+    {
         return $query->where('status', '!=', \constStatus::Archive);
     }
 
-    public function scopeOnlyActive($query) {
+    public function scopeOnlyActive($query)
+    {
         return $query->where('status', '=', \constStatus::Active);
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Subscriptions() {
+    public function Subscriptions()
+    {
         return $this->hasMany('App\Subscription', 'plan_id');
     }
 
-    public function Service() {
+    public function Service()
+    {
         return $this->belongsTo('App\Service', 'service_id');
     }
 }

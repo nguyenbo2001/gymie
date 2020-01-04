@@ -33,15 +33,18 @@ class Service extends Model
         'descriptioin' => 10,
     ];
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Plans() {
+    public function Plans()
+    {
         return $this->hasMany('App\Plan', 'service_id');
     }
 }

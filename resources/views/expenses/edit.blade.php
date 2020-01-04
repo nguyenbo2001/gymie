@@ -11,11 +11,11 @@
                         <div class="panel-head font-size-20">Enter details of the expense</div>
                     </div>
                     <div class="panel-body">
-                    {!! Form::model($expense, ['method' => 'POST','action' => ['ExpensesController@update',$expense->id], 'id' => 'expensesform']) !!}
+                        {!! Form::model($expense, ['method' => 'POST','action' => ['ExpensesController@update',$expense->id], 'id' => 'expensesform']) !!}
 
-                    @include('expenses.form',['submitButtonText' => 'Update', 'expenseCategories' => $arrExpenseCategories])
+                        @include('expenses.form',['submitButtonText' => 'Update', 'expenseCategories' => $arrExpenseCategories])
 
-                    {!! Form::Close() !!}
+                        {!! Form::Close() !!}
                     </div>
                 </div>
             </div>

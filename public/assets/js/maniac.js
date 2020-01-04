@@ -81,7 +81,7 @@ var gymie = (function ($) {
 				autoclose: true,
 				todayHighlight: true,
 				weekStart: 1,
-			}).on('changeDate', function(date) {
+			}).on('changeDate', function (date) {
 				let _formatDate = moment(date.date).format('YYYY-MM-DD');
 				$(this).val(_formatDate);
 				$(this).trigger('change');

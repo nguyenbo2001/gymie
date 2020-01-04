@@ -11,7 +11,8 @@ class ServicesController extends Controller
     /**
      * Function Init
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -22,10 +23,10 @@ class ServicesController extends Controller
      */
     public function index(Request $request)
     {
-        $services = Service::search('"'. $request->input('search'). '"')
-                            ->paginate(10);
-        $serviceTotal = Service::search('"'. $request->input('search').'"')
-                                ->get();
+        $services = Service::search('"' . $request->input('search') . '"')
+            ->paginate(10);
+        $serviceTotal = Service::search('"' . $request->input('search') . '"')
+            ->get();
         $count = $serviceTotal->count();
 
         return view('services.index', compact('services', 'count'));
@@ -118,7 +119,8 @@ class ServicesController extends Controller
         //
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         Service::destroy($id);
         return redirect('plans/services/all');
     }

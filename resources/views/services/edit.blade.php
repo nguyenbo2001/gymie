@@ -3,28 +3,28 @@
 @section('content')
 
 <div class="rightside bg-grey-100">
-<div class="container-fluid">
-<div class="row">
-					<div class="col-md-12">
-                        <div class="panel no-border">
-                            <div class="panel-title">
-                            <div class="panel-head font-size-20">Enter details of the service</div>
-                            </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel no-border">
+                    <div class="panel-title">
+                        <div class="panel-head font-size-20">Enter details of the service</div>
+                    </div>
 
-                            {!! Form::model($service, ['method' => 'POST','action' => ['ServicesController@update',$service->id],'id'=>'servicesform']) !!}
+                    {!! Form::model($service, ['method' => 'POST','action' => ['ServicesController@update',$service->id],'id'=>'servicesform']) !!}
 
-                            @include('services.form',['submitButtonText' => 'Update'])
+                    @include('services.form',['submitButtonText' => 'Update'])
 
-                            {!! Form::Close() !!}
+                    {!! Form::Close() !!}
 
-                            </form>
+                    </form>
 
-                            </div>
-                        </div>
-                        </div>
-                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-@stop
-@section('footer_scripts')
+    @stop
+    @section('footer_scripts')
     <script src="{{ URL::asset('assets/js/service.js') }}" type="text/javascript"></script>
- @stop
+    @stop

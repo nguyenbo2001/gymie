@@ -48,7 +48,7 @@ Route::get('reportData/members', 'ReportData\MembersController@details');
 // API routes
 Route::post('api/token', 'Api\AuthenticateController@authenticate');
 
-Route::group(['prefix' => 'api', 'middleware' => ['jwt.auth']], function() {
+Route::group(['prefix' => 'api', 'middleware' => ['jwt.auth']], function () {
     Route::get('dashboard', 'Api\DashboardController@index');
     Route::get('members', 'Api\MembersController@index');
     Route::get('subscriptions', 'Api\SubscriptionsController@index');
@@ -76,21 +76,21 @@ Route::group(['prefix' => 'api', 'middleware' => ['jwt.auth']], function() {
 });
 
 // Auth routes
-Route::group(['prefix' => 'auth'], function() {
+Route::group(['prefix' => 'auth'], function () {
     Route::get('login', 'Auth\AuthController@getLogin');
     Route::post('login', 'Auth\AuthController@postLogin');
     Route::get('logout', 'Auth\AuthController@getLogout');
 });
 
 // dashboard
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'DashboardController@index');
     Route::get('/dashboard', 'DashboardController@index');
     Route::post('/dashboard/smsRequest', 'DashboardController@smsRequest');
 });
 
 // MembersController
-Route::group(['prefix' => 'members', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'members', 'middleware' => ['auth']], function () {
     Route::get('/', [
         'middleware' => ['permission:manage-gymie|manage-members|view-member'],
         'uses' => 'MembersController@index',
@@ -139,7 +139,7 @@ Route::group(['prefix' => 'members', 'middleware' => ['auth']], function() {
 
 
 // ReportsController
-Route::group(['prefix' => 'reports', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'reports', 'middleware' => ['auth']], function () {
     Route::get('members/charts', [
         'middleware' => ['permission:manage-gymie|manage-reports|view-report'],
         'uses' => 'ReportsController@gymMemberCharts',
@@ -191,7 +191,7 @@ Route::group(['prefix' => 'reports', 'middleware' => ['auth']], function() {
 });
 
 // SmsController
-Route::group(['prefix' => 'sms', 'middleware' =>['auth']], function() {
+Route::group(['prefix' => 'sms', 'middleware' => ['auth']], function () {
     Route::get('triggers', [
         'middleware' => ['permission:manage-gymie|manage-sms'],
         'uses' => 'SmsController@triggersIndex',
@@ -243,7 +243,7 @@ Route::group(['prefix' => 'sms', 'middleware' =>['auth']], function() {
 });
 
 // enquiries
-Route::group(['prefix' => 'enquiries', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'enquiries', 'middleware' => ['auth']], function () {
     Route::get('/', [
         'middleware' => ['permission:manage-gymie|manage-enquiries|view-enquiry'],
         'uses' => 'EnquiriesController@index',
@@ -283,7 +283,7 @@ Route::group(['prefix' => 'enquiries', 'middleware' => ['auth']], function() {
 });
 
 // followups
-Route::group(['prefix' => 'enquiry', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'enquiry', 'middleware' => ['auth']], function () {
     Route::post('followups', [
         'middleware' => ['permission:manage-gymie|manage-enquiries|add-enquiry-followup'],
         'uses' => 'FollowupsController@store',
@@ -295,7 +295,7 @@ Route::group(['prefix' => 'enquiry', 'middleware' => ['auth']], function() {
 });
 
 //plans
-Route::group(['prefix' => 'plans', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'plans', 'middleware' => ['auth']], function () {
     Route::get('/', [
         'middleware' => ['permission:manage-gymie|manage-plans|view-plan'],
         'uses' => 'PlansController@index',

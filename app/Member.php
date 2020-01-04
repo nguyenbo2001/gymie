@@ -70,7 +70,8 @@ class Member extends Model implements HasMedia
 
 
     // media image size conversion
-    public function registerMediaConversions(Media $media = null) {
+    public function registerMediaConversions(Media $media = null)
+    {
         $this->addMediaConversion('thumb')
             ->height(50)
             ->width(50)
@@ -86,48 +87,63 @@ class Member extends Model implements HasMedia
             ->performOnCollections('profile', 'proof');
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Subscriptions() {
+    public function Subscriptions()
+    {
         return $this->hasMany('App\Subscription');
     }
 
-    public function Invoices() {
+    public function Invoices()
+    {
         return $this->hasMany('App\Invoice');
     }
 
-    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end) {
+    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end)
+    {
         $sorting_field = ($sorting_field != null ? $sorting_field : 'created_at');
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->select('members.id', 'members.member_code',
-                                    'members.name',
-                                    'members.contact',
-                                    'members.created_at',
-                                    'members.status')
-                        ->where('members.status',
-                                '!=',
-                                \constStatus::Archive)
-                        ->orderBy($sorting_field, $sorting_direction);
+            return $query->select(
+                'members.id',
+                'members.member_code',
+                'members.name',
+                'members.contact',
+                'members.created_at',
+                'members.status'
+            )
+                ->where(
+                    'members.status',
+                    '!=',
+                    \constStatus::Archive
+                )
+                ->orderBy($sorting_field, $sorting_direction);
         }
 
-        return $query->select('members.id', 'members.member_code',
-                                    'members.name',
-                                    'members.contact',
-                                    'members.created_at',
-                                    'members.status')
-                        ->where('members.status',
-                                '!=',
-                                \constStatus::Archive)
-                        ->whereBetween('members.created_at', [$drp_start, $drp_end])
-                        ->orderBy($sorting_field, $sorting_direction);
+        return $query->select(
+            'members.id',
+            'members.member_code',
+            'members.name',
+            'members.contact',
+            'members.created_at',
+            'members.status'
+        )
+            ->where(
+                'members.status',
+                '!=',
+                \constStatus::Archive
+            )
+            ->whereBetween('members.created_at', [$drp_start, $drp_end])
+            ->orderBy($sorting_field, $sorting_direction);
     }
 
     // public function scopeReportQuery($query,$sorting_field,$sorting_direction,$drp_start,$drp_end)
@@ -143,31 +159,36 @@ class Member extends Model implements HasMedia
     //     return $query->leftJoin('mst_plans', 'mst_members.plan_id', '=', 'mst_plans.id')->select('mst_members.*','mst_plans.plan_name')->where('mst_members.status','!=', \constStatus::Archive)->whereBetween('mst_members.created_at', [$drp_start, $drp_end])->orderBy($sorting_field,$sorting_direction);
     // }
 
-    public function scopeActive($query) {
+    public function scopeActive($query)
+    {
         return $query->where('status', '=', \constStatus::Active);
     }
 
-    public function scopeInactive($query) {
+    public function scopeInactive($query)
+    {
         return $query->where('status', '=', \constStatus::InActive);
     }
 
-    public function scopeRecent($query) {
+    public function scopeRecent($query)
+    {
         return $query->where('created_at', '<=', Carbon::today())
-                    ->take(10)
-                    ->orderBy('created_at', 'desc');
+            ->take(10)
+            ->orderBy('created_at', 'desc');
     }
 
-    public function scopeBirthday($query) {
+    public function scopeBirthday($query)
+    {
         return $query->whereMonth('DOB', '=', Carbon::today()->month)
-                    ->whereDay('DOB', '<', Carbon::today()->addDays(7))
-                    ->whereDay('DOB', '>=', Carbon::today()->day)
-                    ->where('status', '=', \constStatus::Active);
+            ->whereDay('DOB', '<', Carbon::today()->addDays(7))
+            ->whereDay('DOB', '>=', Carbon::today()->day)
+            ->where('status', '=', \constStatus::Active);
     }
 
     // laravel issue: workaround need
-    public function scopeRegistrations($query, $month, $year) {
+    public function scopeRegistrations($query, $month, $year)
+    {
         return $query->whereMonth('created_at', '=', $month)
-                    ->whereYear('created_at', '=', $year)
-                    ->count();
+            ->whereYear('created_at', '=', $year)
+            ->count();
     }
 }

@@ -55,7 +55,7 @@ class UsersController extends Controller
 
         if ($user->id) {
             if ($request->hasFile('photo')) {
-                $user->photo = \constFilePrefix::StaffPhoto.$user->id.'.'. $request->photo->getClientOriginalExtension();
+                $user->photo = \constFilePrefix::StaffPhoto . $user->id . '.' . $request->photo->getClientOriginalExtension();
                 $user->save();
                 \Utilities::uploadFile($request, \constFilePrefix::StaffPhoto, $user->id, 'photo', \constPaths::StaffPhoto);
             }
@@ -116,7 +116,7 @@ class UsersController extends Controller
         $user->status = $request->status;
         $user->update();
         if ($request->hasFile('photo')) {
-            $user->photo = \constFilePrefix::staffPhoto.$user->id.'.'. $request->photo->getClientOriginalExtension();
+            $user->photo = \constFilePrefix::staffPhoto . $user->id . '.' . $request->photo->getClientOriginalExtension();
             $user->save();
 
             \Utilities::uploadFile($request, \constFilePrefix::staffPhoto, $user->id, 'photo', \constPaths::staffPhoto);
@@ -137,7 +137,8 @@ class UsersController extends Controller
         //
     }
 
-    public function archive(Request $request, $id) {
+    public function archive(Request $request, $id)
+    {
         $user = User::findOrFail($id);
         $user->status = \constStatus::Archive;
         $user->save();

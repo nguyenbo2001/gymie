@@ -11,8 +11,8 @@
 						<div class="form-group">
 							{!! Form::label('payment_amount','Amount Received') !!}
 							<div class="input-group">
-							<div class="input-group-addon"><i class="fa fa-inr"></i></div>
-							{!! Form::text('payment_amount',null,['class'=>'form-control', 'id' => 'payment_amount', 'data-amounttotal' => '0']) !!}
+								<div class="input-group-addon"><i class="fa fa-inr"></i></div>
+								{!! Form::text('payment_amount',null,['class'=>'form-control', 'id' => 'payment_amount', 'data-amounttotal' => '0']) !!}
 							</div>
 						</div>
 					</div>
@@ -21,8 +21,8 @@
 						<div class="form-group">
 							{!! Form::label('payment_amount_pending','Amount Pending') !!}
 							<div class="input-group">
-							<div class="input-group-addon"><i class="fa fa-inr"></i></div>
-							{!! Form::text('payment_amount_pending',null,['class'=>'form-control', 'id' => 'payment_amount_pending', 'readonly']) !!}
+								<div class="input-group-addon"><i class="fa fa-inr"></i></div>
+								{!! Form::text('payment_amount_pending',null,['class'=>'form-control', 'id' => 'payment_amount_pending', 'readonly']) !!}
 							</div>
 						</div>
 					</div>

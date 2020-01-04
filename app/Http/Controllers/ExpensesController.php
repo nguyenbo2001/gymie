@@ -13,7 +13,8 @@ class ExpensesController extends Controller
     /**
      * init function
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -24,19 +25,27 @@ class ExpensesController extends Controller
      */
     public function index(Request $request)
     {
-        $expenses = Expense::indexQuery($request->category_id,
-                                        $request->sort_field, $request->sort_direction,
-                                        $request->drp_start, $request->drp_end)
-                            ->search('"'. $request->input('search'). '"')
-                            ->paginate(10);
-        $expenseTotal = Expense::indexQuery($request->category_id,
-                                            $request->sort_field, $request->sort_direction,
-                                            $request->drp_start, $request->drp_end)
-                                ->search('"'. $request->input('search'). '"')
-                                ->get();
+        $expenses = Expense::indexQuery(
+            $request->category_id,
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->paginate(10);
+        $expenseTotal = Expense::indexQuery(
+            $request->category_id,
+            $request->sort_field,
+            $request->sort_direction,
+            $request->drp_start,
+            $request->drp_end
+        )
+            ->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $expenseTotal->sum('amount');
 
-        if ( ! $request->has('drp_start') or ! $request->has('drp_end')) {
+        if (!$request->has('drp_start') or !$request->has('drp_end')) {
             $drp_placeholder = 'Select daterange filter';
         } else {
             $drp_placeholder = $request->drp_start . ' - ' . $request->drp_end;
@@ -142,8 +151,10 @@ class ExpensesController extends Controller
 
         if ($request->due_date == Carbon::today()) {
             $expense->paid = \constPaymentStatus::Paid;
-        } elseif ($request->due_date != Carbon::today()
-                && $expense->paid == \constPaymentStatus::Paid) {
+        } elseif (
+            $request->due_date != Carbon::today()
+            && $expense->paid == \constPaymentStatus::Paid
+        ) {
             $expense->paid = \constPaymentStatus::Paid;
         } else {
             $expense->paid = \constPaymentStatus::Unpaid;
@@ -168,15 +179,17 @@ class ExpensesController extends Controller
         //
     }
 
-    public function paid(Request $request, $id) {
+    public function paid(Request $request, $id)
+    {
         Expense::where('id', '=', $id)
-                ->update(['paid' => \constPaymentStatus::Paid]);
+            ->update(['paid' => \constPaymentStatus::Paid]);
 
         flash()->success('Expense was successfully paid');
         return redirect('expenses/all');
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         Expense::destroy($id);
 
         return redirect('expenses/all');

@@ -48,107 +48,133 @@ class Subscription extends Model
         'Invoice.invoice_number' => 20,
     ];
 
-    public function scopeDashboardExpiring($query) {
+    public function scopeDashboardExpiring($query)
+    {
         return $query->where('end_date', '<', Carbon::today()->addDays(7))->where('status', '=', \constSubscription::onGoing);
     }
 
-    public function scopeDashboardExpired($query) {
+    public function scopeDashboardExpired($query)
+    {
         return $query->where('status', '=', \constSubscription::Expired);
     }
 
-    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end) {
+    public function scopeIndexQuery($query, $sorting_field, $sorting_direction, $drp_start, $drp_end)
+    {
         $sorting_field = ($sorting_field != null ? $sorting_field : 'created_by');
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->leftJoin('plans',
-                                    'subscriptions.plan_id',
-                                    '=',
-                                    'plans.id')
-                        ->select('subscriptions.*',
-                                'plans.plan_name')
-                        ->orderBy($sorting_field, $sorting_direction);
+            return $query->leftJoin(
+                'plans',
+                'subscriptions.plan_id',
+                '=',
+                'plans.id'
+            )
+                ->select(
+                    'subscriptions.*',
+                    'plans.plan_name'
+                )
+                ->orderBy($sorting_field, $sorting_direction);
         }
 
-        return $query->leftJoin('plans',
-                                'subscriptions.plan_id',
-                                '=',
-                                'plans.id')
-                    ->select('subscriptions.*',
-                            'plans.plan_name')
-                    ->whereBetween('subscriptions.created_at', [$drp_start, $drp_end])
-                    ->orderBy($sorting_field, $sorting_direction);
+        return $query->leftJoin(
+            'plans',
+            'subscriptions.plan_id',
+            '=',
+            'plans.id'
+        )
+            ->select(
+                'subscriptions.*',
+                'plans.plan_name'
+            )
+            ->whereBetween('subscriptions.created_at', [$drp_start, $drp_end])
+            ->orderBy($sorting_field, $sorting_direction);
     }
 
-    public function scopeExpiring($query, $sorting_field, $sorting_direction, $drp_start, $drp_end) {
+    public function scopeExpiring($query, $sorting_field, $sorting_direction, $drp_start, $drp_end)
+    {
         $sorting_field = ($sorting_field != null ? $sorting_field : 'created_at');
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->leftJoin('plans',
-                                    'subscriptions.plan_id',
-                                    '=',
-                                    'plans.id')
-                        ->select('subscriptions.*', 'plans.plan_name')
-                        ->where('subscriptions.end_date', '<', Carbon::today()->addDays(7))
-                        ->where('subscriptions.status', '=', \constSubscription::onGoing)
-                        ->orderBy($sorting_field, $sorting_direction);
+            return $query->leftJoin(
+                'plans',
+                'subscriptions.plan_id',
+                '=',
+                'plans.id'
+            )
+                ->select('subscriptions.*', 'plans.plan_name')
+                ->where('subscriptions.end_date', '<', Carbon::today()->addDays(7))
+                ->where('subscriptions.status', '=', \constSubscription::onGoing)
+                ->orderBy($sorting_field, $sorting_direction);
         }
 
-        return $query->leftJoin('plans',
-                                'subscriptions.plan_id',
-                                '=',
-                                'plans.id')
-                    ->select('subscriptions.*', 'plans.plan_name')
-                    ->where('subscriptions.end_date', '<', Carbon::today()->addDays(7))
-                    ->where('subscriptions.status', '=', \constSubscription::onGoing)
-                    ->whereBetween('subscriptions.created_at', [$drp_start, $drp_end])
-                    ->orderBy($sorting_field, $sorting_direction);
+        return $query->leftJoin(
+            'plans',
+            'subscriptions.plan_id',
+            '=',
+            'plans.id'
+        )
+            ->select('subscriptions.*', 'plans.plan_name')
+            ->where('subscriptions.end_date', '<', Carbon::today()->addDays(7))
+            ->where('subscriptions.status', '=', \constSubscription::onGoing)
+            ->whereBetween('subscriptions.created_at', [$drp_start, $drp_end])
+            ->orderBy($sorting_field, $sorting_direction);
     }
 
-    public function scopeExpired($query, $sorting_field, $sorting_direction, $drp_start, $drp_end) {
+    public function scopeExpired($query, $sorting_field, $sorting_direction, $drp_start, $drp_end)
+    {
         $sorting_field = ($sorting_field != null ? $sorting_field : 'created_at');
         $sorting_direction = ($sorting_direction != null ? $sorting_direction : 'desc');
 
         if ($drp_start == null or $drp_end == null) {
-            return $query->leftJoin('plans',
-                                    'subscriptions.plan_id',
-                                    '=',
-                                    'plans.id')
-                        ->select('subscriptions.*', 'plans.plan_name')
-                        ->where('subscriptions.status', '=', \constSubscription::Expired)
-                        ->where('subscriptions.status', '!=', \constSubscription::renewed)
-                        ->orderBy($sorting_field, $sorting_direction);
+            return $query->leftJoin(
+                'plans',
+                'subscriptions.plan_id',
+                '=',
+                'plans.id'
+            )
+                ->select('subscriptions.*', 'plans.plan_name')
+                ->where('subscriptions.status', '=', \constSubscription::Expired)
+                ->where('subscriptions.status', '!=', \constSubscription::renewed)
+                ->orderBy($sorting_field, $sorting_direction);
         }
 
-        return $query->leftJoin('plans',
-                                'subscriptions.plan_id',
-                                '=',
-                                'plans.id')
-                    ->select('subscriptions.*', 'plans.plan_name')
-                    ->where('subscriptions.status', '=', \constSubscription::Expired)
-                    ->where('subscriptions.status', '!=', \constSubscription::renewed)
-                    ->whereBetween('subscriptions.created_at', [$drp_start, $drp_end])
-                    ->orderBy($sorting_field, $sorting_direction);
+        return $query->leftJoin(
+            'plans',
+            'subscriptions.plan_id',
+            '=',
+            'plans.id'
+        )
+            ->select('subscriptions.*', 'plans.plan_name')
+            ->where('subscriptions.status', '=', \constSubscription::Expired)
+            ->where('subscriptions.status', '!=', \constSubscription::renewed)
+            ->whereBetween('subscriptions.created_at', [$drp_start, $drp_end])
+            ->orderBy($sorting_field, $sorting_direction);
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Member() {
+    public function Member()
+    {
         return $this->belongsTo('App\Member', 'member_id');
     }
 
-    public function Plan() {
+    public function Plan()
+    {
         return $this->belongsTo('App\Plan', 'plan_id');
     }
 
-    public function Invoice() {
+    public function Invoice()
+    {
         return $this->belongsTo('App\Invoice', 'invoice_id');
     }
 }

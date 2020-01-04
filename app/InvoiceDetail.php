@@ -27,19 +27,23 @@ class InvoiceDetail extends Model
         'plan_id' => 0,
     ];
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 
-    public function Invoice() {
+    public function Invoice()
+    {
         return $this->belongsTo('App\Invoice', 'invoice_id');
     }
 
-    public function Plan() {
+    public function Plan()
+    {
         return $this->belongsTo('App\Plan', 'plan_id');
     }
 }

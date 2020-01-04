@@ -26,21 +26,27 @@ class ExpenseCategory extends Model
         'status' => 0,
     ];
 
-    public function scopeExcludeArchive($query) {
-        return $query->where('status',
-                            '!=',
-                            \constStatus::Archive);
+    public function scopeExcludeArchive($query)
+    {
+        return $query->where(
+            'status',
+            '!=',
+            \constStatus::Archive
+        );
     }
 
-    public function Expenses() {
+    public function Expenses()
+    {
         return $this->hasMany('App\Expense', 'category_id');
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function updatedBy() {
+    public function updatedBy()
+    {
         return $this->belongsTo('App\User', 'updated_by');
     }
 }

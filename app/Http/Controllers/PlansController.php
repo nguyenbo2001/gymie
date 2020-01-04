@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class PlansController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -19,10 +20,10 @@ class PlansController extends Controller
      */
     public function index(Request $request)
     {
-        $plans = Plan::excludeArchive()->search('"'. $request->input('search'). '"')
-                    ->paginate(10);
-        $planTotal = Plan::excludeArchive()->search('"'.$request->input('search').'"')
-                        ->get();
+        $plans = Plan::excludeArchive()->search('"' . $request->input('search') . '"')
+            ->paginate(10);
+        $planTotal = Plan::excludeArchive()->search('"' . $request->input('search') . '"')
+            ->get();
         $count = $planTotal->count();
 
         return view('plans.index', compact('plans', 'count'));
@@ -117,7 +118,8 @@ class PlansController extends Controller
         //
     }
 
-    public function archive($id) {
+    public function archive($id)
+    {
         Plan::destroy($id);
 
         return redirect('plans/all');

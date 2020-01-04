@@ -11,14 +11,16 @@ class FollowupsController extends Controller
     /**
      * init
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
     /**
      * Store followup
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $followup = new Followup($request->all());
 
         $followup->createdBy()->associate(Auth::user());
@@ -33,7 +35,8 @@ class FollowupsController extends Controller
     /**
      * Update followup
      */
-    public function update (Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $followup = Followup::findOrFail($id);
         $followup->update($request->all());
         $followup->createdBy()->associate(Auth::user());

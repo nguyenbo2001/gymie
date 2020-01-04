@@ -35,7 +35,7 @@
 									{!! Form::text('financial_start',$settings['financial_start'],['class'=>'form-control datepicker-default', 'id' => 'financial_start']) !!}
 								</div>
 							</div>
-							
+
 							<div class="col-sm-4">
 								<div class="form-group">
 									{!! Form::label('financial_end','Financial year end') !!}
@@ -43,7 +43,7 @@
 								</div>
 							</div>
 
-							
+
 						</div>
 
 						<div class="row">
@@ -53,7 +53,7 @@
 										<div class="col-sm-12">
 										<div class="form-group">
 										{!! Form::label('gym_logo','Gym Logo') !!}<br>
-										<img alt="gym logo" src="{{url('/images/Invoice/'.'gym_logo'.'.jpg') }}"/>
+										<img alt="gym logo" src="{{url('/assets/img/gym/'.'gym_logo'.'.jpg') }}"/>
 										</div>
 										</div>
 									</div>
@@ -73,7 +73,7 @@
 									</div>
 									</div>
 								@endif
-				
+
 							<div class="col-sm-8">
 								<div class="row">
 									<div class="col-sm-12">
@@ -152,7 +152,7 @@
 					<div class="panel-title">
 						<div class="panel-head font-size-15"><i class="fa fa-users"></i> Member</div>
 					</div>
-					
+
 					<div class="panel-body">
 						<div class="row"><!--Main row start-->
 							<div class="col-sm-12">
@@ -192,7 +192,7 @@
 					<div class="panel-title">
 						<div class="panel-head font-size-15"><i class="fa fa-dollar"></i> Charges</div>
 					</div>
-					
+
 					<div class="panel-body">
 						<div class="row"><!--Main row start-->
 							<div class="col-sm-12">
@@ -239,7 +239,7 @@
 					<div class="panel-title">
 						<div class="panel-head font-size-15"><i class="fa fa-file-text-o"></i> SMS</div>
 					</div>
-					
+
 					<div class="panel-body">
 						<div class="row"><!--Main row start-->
 							<div class="col-sm-12">
@@ -289,7 +289,7 @@
 </div>
 @stop
 
-@section('footer_scripts') 
+@section('footer_scripts')
     <script src="{{ URL::asset('assets/js/setting.js') }}" type="text/javascript"></script>
 @stop
 

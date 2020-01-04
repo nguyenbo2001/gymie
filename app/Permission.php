@@ -8,7 +8,7 @@ use Zizaco\Entrust\EntrustPermission;
 
 class Permission extends EntrustPermission
 {
-    protected $table = 'permisisons';
+    // protected $table = 'permisisons';
 
     protected $fillable = [
         'name',

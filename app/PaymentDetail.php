@@ -26,7 +26,7 @@ class PaymentDetail extends Model
         'invoice_id' => 0,
         'payment_amount' => 0,
         'mode' => '',
-        'node' => '',
+        'note' => '',
     ];
 
     use Eloquence;
